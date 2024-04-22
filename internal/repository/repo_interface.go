@@ -7,7 +7,7 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
 )
 
-//go:generate mockgen -source=base_repo.go -destination=mocks/mock_base_repo.go -package=mocks
+//go:generate mockgen -destination=../mock/repository_mock.go -package=mock_repo -source=repo_interface.go
 type IFaceRepository interface {
 	//User
 	CreateUser(ctx context.Context, data *model.User) error
@@ -23,10 +23,14 @@ type IFaceRepository interface {
 	//Course
 	CreateCourse(ctx context.Context, data *model.Course) error
 	FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error)
-	FindOneCourse(ctx context.Context, courseID int) (*model.Course, error)
+	FindOneCourse(ctx context.Context, courseID string) (*model.Course, error)
 	DeleteOneCourse(ctx context.Context, courseID int) error
 	UpdateCourse(ctx context.Context, data *model.Course) error
 
 	//Transaction
 	CreateTransaction(ctx context.Context, data *model.Transaction) error
+
+	//Certificate
+	CreateCertificate(ctx context.Context, data *model.Certificate) error
+	FindOneCertificate(ctx context.Context, query ...interface{}) (*model.Certificate, error)
 }

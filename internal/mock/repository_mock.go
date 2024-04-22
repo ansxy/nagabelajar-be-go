@@ -207,7 +207,7 @@ func (mr *MockIFaceRepositoryMockRecorder) FindOneCertificate(ctx any, query ...
 }
 
 // FindOneCourse mocks base method.
-func (m *MockIFaceRepository) FindOneCourse(ctx context.Context, courseID int) (*model.Course, error) {
+func (m *MockIFaceRepository) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindOneCourse", ctx, courseID)
 	ret0, _ := ret[0].(*model.Course)

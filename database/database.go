@@ -11,6 +11,7 @@ func AutoMigrate(db *gorm.DB) error {
 		&model.UserInfo{},
 		&model.Course{},
 		&model.Category{},
+		&model.Certificate{},
 		// &model.Transaction{},
 		&model.CourseContent{},
 	)

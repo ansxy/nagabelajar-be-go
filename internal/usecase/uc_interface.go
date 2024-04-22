@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"mime/multipart"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
@@ -22,8 +23,15 @@ type IFaceUsecase interface {
 	CreateCourse(ctx context.Context, data *request.UpsertCourseRequest) error
 	DeleteCourse(ctx context.Context, courseID int) error
 	FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error)
-	FindOneCourse(ctx context.Context, courseID int) (*model.Course, error)
+	FindOneCourse(ctx context.Context, courseID string) (*model.Course, error)
 
 	//Transaction
 	CreateTransaction(ctx context.Context, data *request.InsertTransaction) error
+
+	//File
+	UploadFile(ctx context.Context, header *multipart.FileHeader) error
+
+	//Certificate
+	ValidateCertificate(ctx context.Context, file *multipart.FileHeader) error
+	CreateCertificate(ctx context.Context, req *request.CreateCertificateRequest) error
 }

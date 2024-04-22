@@ -26,11 +26,20 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 		route.Post("/login", handler.Login)
 	})
 
+	routes.Route("/upload", func(route chi.Router) {
+		route.Post("/", handler.UploudFile)
+	})
+
 	routes.Route("/user", func(route chi.Router) {
 		route.Use(mw.AuthenticatedUser())
 		route.Get("/profile", func(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("profile"))
 		})
+	})
+
+	routes.Route("/certificate", func(route chi.Router) {
+		// route.Use(mw.AuthenticatedUser())
+		route.Post("/", handler.ValidateCertificate)
 	})
 
 	return routes

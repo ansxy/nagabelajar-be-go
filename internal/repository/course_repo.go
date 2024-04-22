@@ -46,7 +46,7 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 }
 
 // FindOneCourse implements IFaceRepository.
-func (repo *Repository) FindOneCourse(ctx context.Context, courseID int) (*model.Course, error) {
+func (repo *Repository) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
 	var res *model.Course
 
 	if err := repo.BaseRepository.FindOne(repo.db.WithContext(ctx).Where("course_id = ?", courseID), &res); err != nil {
@@ -57,5 +57,5 @@ func (repo *Repository) FindOneCourse(ctx context.Context, courseID int) (*model
 
 // UpdateCourse implements IFaceRepository.
 func (repo *Repository) UpdateCourse(ctx context.Context, data *model.Course) error {
-	panic("")
+	panic("implement me")
 }

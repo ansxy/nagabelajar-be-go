@@ -13,7 +13,8 @@ type User struct {
 	UpdateAt string `json:"update_at" gorm:"type:timestamp;default:now()"`
 	DeleteAt string `json:"delete_at" gorm:"type:timestamp;default:now()"`
 
-	UserInfo UserInfo `json:"user_info" gorm:"foreignKey:UserID;references:UserID"`
+	UserInfo    UserInfo      `json:"user_info" gorm:"foreignKey:UserID;references:UserID"`
+	Certificate []Certificate `json:"certificate"`
 }
 
 func (User) TableName() string {

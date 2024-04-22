@@ -15,3 +15,8 @@ type UpsertCourseRequest struct {
 	IsPaid      *bool  `json:"is_paid"`
 	IsArchived  *bool  `json:"is_archived"`
 }
+
+type TakeCourseRequest struct {
+	UserID   string `json:"-"`
+	CourseID string `json:"-"`
+}

@@ -35,7 +35,7 @@ func (u *Usecase) DeleteCourse(ctx context.Context, courseID int) error {
 }
 
 // FindOneCourse implements IFaceUsecase.
-func (u *Usecase) FindOneCourse(ctx context.Context, courseID int) (*model.Course, error) {
+func (u *Usecase) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
 	return u.Repo.FindOneCourse(ctx, courseID)
 }
 

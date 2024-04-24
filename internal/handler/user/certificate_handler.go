@@ -3,6 +3,7 @@ package user
 import (
 	"net/http"
 
+	"github.com/ansxy/nagabelajar-be-go/internal/request"
 	"github.com/ansxy/nagabelajar-be-go/internal/response"
 	custom_error "github.com/ansxy/nagabelajar-be-go/pkg/error"
 )
@@ -24,6 +25,17 @@ func (h *userHandler) ValidateCertificate(w http.ResponseWriter, r *http.Request
 	}
 
 	err = h.uc.ValidateCertificate(r.Context(), header)
+	if err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	response.Success(w, nil)
+}
+
+func (h *userHandler) CreateCertificate(w http.ResponseWriter, r *http.Request) {
+	var req *request.CreateCertificateRequest
+	err := h.uc.CreateCertificate(r.Context(), req)
 	if err != nil {
 		response.Error(w, err)
 		return

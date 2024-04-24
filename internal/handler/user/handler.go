@@ -39,7 +39,7 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 
 	routes.Route("/certificate", func(route chi.Router) {
 		// route.Use(mw.AuthenticatedUser())
-		route.Post("/", handler.ValidateCertificate)
+		route.Post("/", handler.CreateCertificate)
 	})
 
 	return routes

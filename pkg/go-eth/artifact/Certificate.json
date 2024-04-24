@@ -3,11 +3,6 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_md5",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
 				"name": "_recipientName",
 				"type": "string"
 			},
@@ -26,6 +21,24 @@
 		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_newMd5",
+				"type": "string"
+			}
+		],
+		"name": "updateMd5Certificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -84,6 +97,25 @@
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "fileMd5toAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "_recipientName",
 				"type": "string"
 			}
@@ -120,6 +152,11 @@
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -128,6 +165,25 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_md5",
+				"type": "string"
+			}
+		],
+		"name": "getCertificateByFileName",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

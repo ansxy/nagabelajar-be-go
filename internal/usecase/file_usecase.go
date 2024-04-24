@@ -15,7 +15,8 @@ import (
 
 // UploadFile implements IFaceUsecase.
 func (u *Usecase) UploadFile(ctx context.Context, file *multipart.FileHeader) error {
-	userid := uuid.MustParse(ctx.Value("user_id").(string))
+	// userid := uuid.MustParse(ctx.Value("user_id").(string))
+	userid := uuid.MustParse("01878c5c-98e1-4cbb-a86c-325442b69d22")
 	user, err := u.Repo.FindOneUser(ctx,
 		&model.User{
 			UserID: userid,
@@ -56,7 +57,7 @@ func (u *Usecase) UploadFile(ctx context.Context, file *multipart.FileHeader) er
 		return err
 	}
 
-	err = u.FC.UploudFile(ctx, file)
+	err = u.FC.UploudFile(ctx, file, fileReader)
 	if err != nil {
 		log.Println("Error uploading file: ", err)
 		return err

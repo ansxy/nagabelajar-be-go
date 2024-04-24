@@ -2,6 +2,8 @@ package firebase
 
 import (
 	"context"
+	"crypto/md5"
+	"encoding/hex"
 	"io"
 	"log"
 	"mime/multipart"
@@ -14,13 +16,38 @@ import (
 )
 
 type IFaceFCM interface {
-	UploudFile(ctx context.Context, file *multipart.FileHeader) error
+	UploudFile(ctx context.Context, file *multipart.FileHeader, fileReader io.Reader) error
 	GetOneFile(ctx context.Context, fileName string) (io.Reader, error)
+	GetMd5Hash(ctx context.Context, fileName string) (string, error)
 }
 
 type FCS struct {
 	Client  *firebase.App
 	Storage *storage.Client
+}
+
+// GetMd5Hash implements IFaceFCM.
+func (f *FCS) GetMd5Hash(ctx context.Context, fileName string) (string, error) {
+	bucket, err := f.Storage.DefaultBucket()
+	if err != nil {
+		return "", err
+	}
+
+	object := bucket.Object(fileName)
+	reader, err := object.NewReader(ctx)
+	if err != nil {
+		return "", err
+	}
+
+	hasher := md5.New()
+	if _, err := io.Copy(hasher, reader); err != nil {
+		return "", err
+	}
+
+	hash := hasher.Sum(nil)
+	md5Hash := hex.EncodeToString(hash)
+
+	return md5Hash, nil
 }
 
 // GetOneFile implements IFaceFCM.
@@ -40,13 +67,7 @@ func (f *FCS) GetOneFile(ctx context.Context, fileName string) (io.Reader, error
 }
 
 // UploudFile implements IFaceFCM.
-func (f *FCS) UploudFile(ctx context.Context, file *multipart.FileHeader) error {
-	fileReader, err := file.Open()
-	if err != nil {
-		return err
-	}
-	defer fileReader.Close()
-
+func (f *FCS) UploudFile(ctx context.Context, file *multipart.FileHeader, fileReader io.Reader) error {
 	bucket, err := f.Storage.DefaultBucket()
 	if err != nil {
 		return err

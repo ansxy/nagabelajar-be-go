@@ -55,3 +55,14 @@ func (repo *Repository) FindOneCategory(ctx context.Context, categoryID int) (*m
 
 	return res, nil
 }
+
+// CountCategoryCourse implements IFaceRepository.
+func (repo *Repository) CountCategoryCourse(ctx context.Context, categoryID int) (int64, error) {
+	var count int64
+
+	if err := repo.db.WithContext(ctx).Model(&model.Course{}).Where("category_id = ?", categoryID).Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}

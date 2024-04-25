@@ -19,6 +19,7 @@ type IFaceRepository interface {
 	FindListCategory(ctx context.Context, params *request.ListCategoryRequest) ([]model.Category, int64, error)
 	DeleteOneCategory(ctx context.Context, categoryID int) error
 	FindOneCategory(ctx context.Context, categoryID int) (*model.Category, error)
+	CountCategoryCourse(ctx context.Context, categoryID int) (int64, error)
 
 	//Course
 	CreateCourse(ctx context.Context, data *model.Course) error

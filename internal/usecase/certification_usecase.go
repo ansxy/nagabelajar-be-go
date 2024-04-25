@@ -6,7 +6,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"io"
-	"log"
 	"mime/multipart"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
@@ -131,8 +130,6 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 	if err != nil {
 		return err
 	}
-
-	log.Println("md5File", md5File)
 
 	_, err = u.SM.Instance.UpdateMd5Certificate(u.SM.Auth, address, md5File)
 	if err != nil {

@@ -48,7 +48,7 @@ func Run() (err error) {
 	})
 
 	addr := flag.String("http", fmt.Sprintf(":%d", 3000), "HTTP listen address")
-	handler := http.NewHTTPHandler(conf, uc)
+	handler := http.NewHTTPHandler(conf, uc, fc)
 	err = custom_http.NewHTTPServer(*addr, handler, conf)
 	if err != nil {
 		return err

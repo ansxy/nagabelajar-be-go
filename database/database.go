@@ -7,13 +7,17 @@ import (
 
 func AutoMigrate(db *gorm.DB) error {
 	db.AutoMigrate(
+		// &model.Transaction{},
 		&model.User{},
 		&model.UserInfo{},
 		&model.Course{},
 		&model.Category{},
 		&model.Certificate{},
-		// &model.Transaction{},
 		&model.CourseContent{},
+		&model.CourseDetail{},
+		&model.CourseExercise{},
+		&model.CoursePractice{},
+		&model.CourseSubContent{},
 	)
 
 	return nil

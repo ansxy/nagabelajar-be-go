@@ -42,3 +42,8 @@ func (repo *BaseRepository) FindOne(db *gorm.DB, result interface{}) (err error)
 	err = db.First(result).Preload(clause.Associations).Error
 	return
 }
+
+func (repo *BaseRepository) FindList(db *gorm.DB, result interface{}) (err error) {
+	err = db.Find(result).Preload(clause.Associations).Error
+	return
+}

@@ -5,7 +5,9 @@ import (
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
+	"github.com/ansxy/nagabelajar-be-go/pkg/constant"
 	"github.com/ansxy/nagabelajar-be-go/pkg/hash"
+	"gorm.io/gorm"
 )
 
 // RegisterUser implements IFaceUsecase.
@@ -37,5 +39,33 @@ func (u *Usecase) Login(ctx context.Context, data *request.LoginRequest) (*model
 		return nil, err
 	}
 
+	return user, nil
+}
+
+// LoginWithGoogle implements IFaceUsecase.
+func (u *Usecase) LoginWithGoogle(ctx context.Context, data *request.LoginWithGoogleRequest) (*model.User, error) {
+	var user *model.User
+	user, err := u.Repo.FindOneUser(ctx, &model.User{
+		FirebaseID: data.FirebaseID,
+	})
+
+	if err != nil {
+		if err.Error() == gorm.ErrRecordNotFound.Error() {
+			user = &model.User{
+				Email:      data.Email,
+				FirebaseID: data.FirebaseID,
+				Role:       constant.Role.User,
+				Name:       data.Email,
+				IsGoogle:   true,
+				Password:   "",
+			}
+			err = u.Repo.CreateUser(ctx, user)
+			if err != nil {
+				return nil, err
+			}
+
+			return user, nil
+		}
+	}
 	return user, nil
 }

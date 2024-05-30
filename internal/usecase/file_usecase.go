@@ -57,7 +57,7 @@ func (u *Usecase) UploadFile(ctx context.Context, file *multipart.FileHeader) er
 		return err
 	}
 
-	err = u.FC.UploudFile(ctx, file, fileReader)
+	_, err = u.FC.UploudFile(ctx, file, fileReader)
 	if err != nil {
 		log.Println("Error uploading file: ", err)
 		return err

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
+	"github.com/ansxy/nagabelajar-be-go/internal/request"
 )
 
 // CreateUser implements IFaceRepository.
@@ -27,4 +28,18 @@ func (repo *Repository) FindOneUser(ctx context.Context, query ...interface{}) (
 // UpdateUser implements IFaceRepository.
 func (repo *Repository) UpdateUser(ctx context.Context, data *model.User) error {
 	return repo.BaseRepository.Update(repo.db.WithContext(ctx), data)
+}
+
+// FindUsers implements IFaceRepository.
+func (repo *Repository) FindUsers(ctx context.Context, params *request.ListUserRequest) ([]model.User, int64, error) {
+	var res []model.User
+
+	if err := repo.BaseRepository.FindList(
+		repo.db.WithContext(ctx).Where("role = ?", params.Role), &res,
+	); err != nil {
+		return nil, 0, err
+	}
+
+	return res, 0, nil
+
 }

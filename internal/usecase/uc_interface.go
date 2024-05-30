@@ -12,6 +12,7 @@ type IFaceUsecase interface {
 	//User
 	RegisterUser(ctx context.Context, data *request.UpsertUserRequest) error
 	Login(ctx context.Context, data *request.LoginRequest) (*model.User, error)
+	LoginWithGoogle(ctx context.Context, data *request.LoginWithGoogleRequest) (*model.User, error)
 
 	//Category
 	CreateCategory(ctx context.Context, data *request.UpsertCategoryRequest) error
@@ -25,6 +26,10 @@ type IFaceUsecase interface {
 	FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error)
 	FindOneCourse(ctx context.Context, courseID string) (*model.Course, error)
 
+	//CourseDetail
+	CreateCourseDetail(ctx context.Context, data *request.UpserCourseDetailRequest) error
+	FindCourseDetail(ctx context.Context, courseID int) (*model.CourseDetail, error)
+
 	//Transaction
 	CreateTransaction(ctx context.Context, data *request.InsertTransaction) error
 
@@ -34,4 +39,7 @@ type IFaceUsecase interface {
 	//Certificate
 	ValidateCertificate(ctx context.Context, file *multipart.FileHeader) error
 	CreateCertificate(ctx context.Context, req *request.CreateCertificateRequest) error
+
+	//Media
+	UploadMedia(ctx context.Context, data *multipart.FileHeader) (*model.Media, error)
 }

@@ -41,6 +41,21 @@ func (m *MockIFaceRepository) EXPECT() *MockIFaceRepositoryMockRecorder {
 	return m.recorder
 }
 
+// CountCategoryCourse mocks base method.
+func (m *MockIFaceRepository) CountCategoryCourse(ctx context.Context, categoryID int) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountCategoryCourse", ctx, categoryID)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountCategoryCourse indicates an expected call of CountCategoryCourse.
+func (mr *MockIFaceRepositoryMockRecorder) CountCategoryCourse(ctx, categoryID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountCategoryCourse", reflect.TypeOf((*MockIFaceRepository)(nil).CountCategoryCourse), ctx, categoryID)
+}
+
 // CreateCategory mocks base method.
 func (m *MockIFaceRepository) CreateCategory(ctx context.Context, data *model.Category) error {
 	m.ctrl.T.Helper()
@@ -81,6 +96,20 @@ func (m *MockIFaceRepository) CreateCourse(ctx context.Context, data *model.Cour
 func (mr *MockIFaceRepositoryMockRecorder) CreateCourse(ctx, data any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCourse", reflect.TypeOf((*MockIFaceRepository)(nil).CreateCourse), ctx, data)
+}
+
+// CreateCourseDetail mocks base method.
+func (m *MockIFaceRepository) CreateCourseDetail(ctx context.Context, data *model.CourseDetail) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCourseDetail", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateCourseDetail indicates an expected call of CreateCourseDetail.
+func (mr *MockIFaceRepositoryMockRecorder) CreateCourseDetail(ctx, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCourseDetail", reflect.TypeOf((*MockIFaceRepository)(nil).CreateCourseDetail), ctx, data)
 }
 
 // CreateTransaction mocks base method.
@@ -221,6 +250,21 @@ func (mr *MockIFaceRepositoryMockRecorder) FindOneCourse(ctx, courseID any) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneCourse", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneCourse), ctx, courseID)
 }
 
+// FindOneCourseDetail mocks base method.
+func (m *MockIFaceRepository) FindOneCourseDetail(ctx context.Context, course_detail_id int) (*model.CourseDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindOneCourseDetail", ctx, course_detail_id)
+	ret0, _ := ret[0].(*model.CourseDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOneCourseDetail indicates an expected call of FindOneCourseDetail.
+func (mr *MockIFaceRepositoryMockRecorder) FindOneCourseDetail(ctx, course_detail_id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneCourseDetail", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneCourseDetail), ctx, course_detail_id)
+}
+
 // FindOneUser mocks base method.
 func (m *MockIFaceRepository) FindOneUser(ctx context.Context, query ...any) (*model.User, error) {
 	m.ctrl.T.Helper()
@@ -239,6 +283,22 @@ func (mr *MockIFaceRepositoryMockRecorder) FindOneUser(ctx any, query ...any) *g
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]any{ctx}, query...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneUser", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneUser), varargs...)
+}
+
+// FindUsers mocks base method.
+func (m *MockIFaceRepository) FindUsers(ctx context.Context, params *request.ListUserRequest) ([]model.User, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindUsers", ctx, params)
+	ret0, _ := ret[0].([]model.User)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FindUsers indicates an expected call of FindUsers.
+func (mr *MockIFaceRepositoryMockRecorder) FindUsers(ctx, params any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUsers", reflect.TypeOf((*MockIFaceRepository)(nil).FindUsers), ctx, params)
 }
 
 // UpdateCourse mocks base method.

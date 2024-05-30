@@ -29,6 +29,12 @@ var (
 	_ = abi.ConvertType
 )
 
+// CertificateOfCompletionCourse is an auto generated low-level Go binding around an user-defined struct.
+type CertificateOfCompletionCourse struct {
+	CourseName string
+	CourseCode string
+}
+
 // CertificateOfCompletionFileMetaData is an auto generated low-level Go binding around an user-defined struct.
 type CertificateOfCompletionFileMetaData struct {
 	Md5 string
@@ -42,7 +48,7 @@ type CertificateOfCompletionPerson struct {
 
 // CertificateMetaData contains all meta data concerning the Certificate contract.
 var CertificateMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_recipientName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_recipientEmail\",\"type\":\"string\"}],\"name\":\"createCertificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_recipient\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_newMd5\",\"type\":\"string\"}],\"name\":\"updateMd5Certificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"certificates\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"md5\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.FileMetaData\",\"name\":\"fileMetaData\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"email\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Person\",\"name\":\"person\",\"type\":\"tuple\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"fileMd5toAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_recipientName\",\"type\":\"string\"}],\"name\":\"getAddressByName\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_recipient\",\"type\":\"address\"}],\"name\":\"getCertificate\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_md5\",\"type\":\"string\"}],\"name\":\"getCertificateByFileName\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"nameToAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"certificateAddresses\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"certificates\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"email\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Person\",\"name\":\"person\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"courseCode\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Course\",\"name\":\"course\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"md5\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.FileMetaData\",\"name\":\"fileMetaData\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_recipientName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_recipientEmail\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseCode\",\"type\":\"string\"}],\"name\":\"createCertificate\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"fileMd5toAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"}],\"name\":\"getCertificate\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_md5\",\"type\":\"string\"}],\"name\":\"getCertificateByFileName\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCertificateCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_newMd5\",\"type\":\"string\"}],\"name\":\"updateMd5Certificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 }
 
 // CertificateABI is the input ABI used to generate the binding from.
@@ -191,32 +197,66 @@ func (_Certificate *CertificateTransactorRaw) Transact(opts *bind.TransactOpts, 
 	return _Certificate.Contract.contract.Transact(opts, method, params...)
 }
 
+// CertificateAddresses is a free data retrieval call binding the contract method 0xb9e192fa.
+//
+// Solidity: function certificateAddresses(uint256 ) view returns(address)
+func (_Certificate *CertificateCaller) CertificateAddresses(opts *bind.CallOpts, arg0 *big.Int) (common.Address, error) {
+	var out []interface{}
+	err := _Certificate.contract.Call(opts, &out, "certificateAddresses", arg0)
+
+	if err != nil {
+		return *new(common.Address), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
+
+	return out0, err
+
+}
+
+// CertificateAddresses is a free data retrieval call binding the contract method 0xb9e192fa.
+//
+// Solidity: function certificateAddresses(uint256 ) view returns(address)
+func (_Certificate *CertificateSession) CertificateAddresses(arg0 *big.Int) (common.Address, error) {
+	return _Certificate.Contract.CertificateAddresses(&_Certificate.CallOpts, arg0)
+}
+
+// CertificateAddresses is a free data retrieval call binding the contract method 0xb9e192fa.
+//
+// Solidity: function certificateAddresses(uint256 ) view returns(address)
+func (_Certificate *CertificateCallerSession) CertificateAddresses(arg0 *big.Int) (common.Address, error) {
+	return _Certificate.Contract.CertificateAddresses(&_Certificate.CallOpts, arg0)
+}
+
 // Certificates is a free data retrieval call binding the contract method 0x0016e526.
 //
-// Solidity: function certificates(address ) view returns((string) fileMetaData, address recipient, (string,string) person, uint256 timestamp)
+// Solidity: function certificates(address ) view returns((string,string) person, (string,string) course, address recipient, uint256 timestamp, (string) fileMetaData)
 func (_Certificate *CertificateCaller) Certificates(opts *bind.CallOpts, arg0 common.Address) (struct {
-	FileMetaData CertificateOfCompletionFileMetaData
-	Recipient    common.Address
 	Person       CertificateOfCompletionPerson
+	Course       CertificateOfCompletionCourse
+	Recipient    common.Address
 	Timestamp    *big.Int
+	FileMetaData CertificateOfCompletionFileMetaData
 }, error) {
 	var out []interface{}
 	err := _Certificate.contract.Call(opts, &out, "certificates", arg0)
 
 	outstruct := new(struct {
-		FileMetaData CertificateOfCompletionFileMetaData
-		Recipient    common.Address
 		Person       CertificateOfCompletionPerson
+		Course       CertificateOfCompletionCourse
+		Recipient    common.Address
 		Timestamp    *big.Int
+		FileMetaData CertificateOfCompletionFileMetaData
 	})
 	if err != nil {
 		return *outstruct, err
 	}
 
-	outstruct.FileMetaData = *abi.ConvertType(out[0], new(CertificateOfCompletionFileMetaData)).(*CertificateOfCompletionFileMetaData)
-	outstruct.Recipient = *abi.ConvertType(out[1], new(common.Address)).(*common.Address)
-	outstruct.Person = *abi.ConvertType(out[2], new(CertificateOfCompletionPerson)).(*CertificateOfCompletionPerson)
+	outstruct.Person = *abi.ConvertType(out[0], new(CertificateOfCompletionPerson)).(*CertificateOfCompletionPerson)
+	outstruct.Course = *abi.ConvertType(out[1], new(CertificateOfCompletionCourse)).(*CertificateOfCompletionCourse)
+	outstruct.Recipient = *abi.ConvertType(out[2], new(common.Address)).(*common.Address)
 	outstruct.Timestamp = *abi.ConvertType(out[3], new(*big.Int)).(**big.Int)
+	outstruct.FileMetaData = *abi.ConvertType(out[4], new(CertificateOfCompletionFileMetaData)).(*CertificateOfCompletionFileMetaData)
 
 	return *outstruct, err
 
@@ -224,24 +264,26 @@ func (_Certificate *CertificateCaller) Certificates(opts *bind.CallOpts, arg0 co
 
 // Certificates is a free data retrieval call binding the contract method 0x0016e526.
 //
-// Solidity: function certificates(address ) view returns((string) fileMetaData, address recipient, (string,string) person, uint256 timestamp)
+// Solidity: function certificates(address ) view returns((string,string) person, (string,string) course, address recipient, uint256 timestamp, (string) fileMetaData)
 func (_Certificate *CertificateSession) Certificates(arg0 common.Address) (struct {
-	FileMetaData CertificateOfCompletionFileMetaData
-	Recipient    common.Address
 	Person       CertificateOfCompletionPerson
+	Course       CertificateOfCompletionCourse
+	Recipient    common.Address
 	Timestamp    *big.Int
+	FileMetaData CertificateOfCompletionFileMetaData
 }, error) {
 	return _Certificate.Contract.Certificates(&_Certificate.CallOpts, arg0)
 }
 
 // Certificates is a free data retrieval call binding the contract method 0x0016e526.
 //
-// Solidity: function certificates(address ) view returns((string) fileMetaData, address recipient, (string,string) person, uint256 timestamp)
+// Solidity: function certificates(address ) view returns((string,string) person, (string,string) course, address recipient, uint256 timestamp, (string) fileMetaData)
 func (_Certificate *CertificateCallerSession) Certificates(arg0 common.Address) (struct {
-	FileMetaData CertificateOfCompletionFileMetaData
-	Recipient    common.Address
 	Person       CertificateOfCompletionPerson
+	Course       CertificateOfCompletionCourse
+	Recipient    common.Address
 	Timestamp    *big.Int
+	FileMetaData CertificateOfCompletionFileMetaData
 }, error) {
 	return _Certificate.Contract.Certificates(&_Certificate.CallOpts, arg0)
 }
@@ -277,70 +319,41 @@ func (_Certificate *CertificateCallerSession) FileMd5toAddress(arg0 string) (com
 	return _Certificate.Contract.FileMd5toAddress(&_Certificate.CallOpts, arg0)
 }
 
-// GetAddressByName is a free data retrieval call binding the contract method 0x9a65ddec.
-//
-// Solidity: function getAddressByName(string _recipientName) view returns(address)
-func (_Certificate *CertificateCaller) GetAddressByName(opts *bind.CallOpts, _recipientName string) (common.Address, error) {
-	var out []interface{}
-	err := _Certificate.contract.Call(opts, &out, "getAddressByName", _recipientName)
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
-}
-
-// GetAddressByName is a free data retrieval call binding the contract method 0x9a65ddec.
-//
-// Solidity: function getAddressByName(string _recipientName) view returns(address)
-func (_Certificate *CertificateSession) GetAddressByName(_recipientName string) (common.Address, error) {
-	return _Certificate.Contract.GetAddressByName(&_Certificate.CallOpts, _recipientName)
-}
-
-// GetAddressByName is a free data retrieval call binding the contract method 0x9a65ddec.
-//
-// Solidity: function getAddressByName(string _recipientName) view returns(address)
-func (_Certificate *CertificateCallerSession) GetAddressByName(_recipientName string) (common.Address, error) {
-	return _Certificate.Contract.GetAddressByName(&_Certificate.CallOpts, _recipientName)
-}
-
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _recipient) view returns(string, string, string, address, uint256)
-func (_Certificate *CertificateCaller) GetCertificate(opts *bind.CallOpts, _recipient common.Address) (string, string, string, common.Address, *big.Int, error) {
+// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
+func (_Certificate *CertificateCaller) GetCertificate(opts *bind.CallOpts, _certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
 	var out []interface{}
-	err := _Certificate.contract.Call(opts, &out, "getCertificate", _recipient)
+	err := _Certificate.contract.Call(opts, &out, "getCertificate", _certificateAddress)
 
 	if err != nil {
-		return *new(string), *new(string), *new(string), *new(common.Address), *new(*big.Int), err
+		return *new(string), *new(string), *new(string), *new(string), *new(string), *new(common.Address), *new(*big.Int), err
 	}
 
 	out0 := *abi.ConvertType(out[0], new(string)).(*string)
 	out1 := *abi.ConvertType(out[1], new(string)).(*string)
 	out2 := *abi.ConvertType(out[2], new(string)).(*string)
-	out3 := *abi.ConvertType(out[3], new(common.Address)).(*common.Address)
-	out4 := *abi.ConvertType(out[4], new(*big.Int)).(**big.Int)
+	out3 := *abi.ConvertType(out[3], new(string)).(*string)
+	out4 := *abi.ConvertType(out[4], new(string)).(*string)
+	out5 := *abi.ConvertType(out[5], new(common.Address)).(*common.Address)
+	out6 := *abi.ConvertType(out[6], new(*big.Int)).(**big.Int)
 
-	return out0, out1, out2, out3, out4, err
+	return out0, out1, out2, out3, out4, out5, out6, err
 
 }
 
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _recipient) view returns(string, string, string, address, uint256)
-func (_Certificate *CertificateSession) GetCertificate(_recipient common.Address) (string, string, string, common.Address, *big.Int, error) {
-	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _recipient)
+// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
+func (_Certificate *CertificateSession) GetCertificate(_certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
+	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _certificateAddress)
 }
 
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _recipient) view returns(string, string, string, address, uint256)
-func (_Certificate *CertificateCallerSession) GetCertificate(_recipient common.Address) (string, string, string, common.Address, *big.Int, error) {
-	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _recipient)
+// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
+func (_Certificate *CertificateCallerSession) GetCertificate(_certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
+	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _certificateAddress)
 }
 
 // GetCertificateByFileName is a free data retrieval call binding the contract method 0x10d04a5c.
@@ -374,35 +387,35 @@ func (_Certificate *CertificateCallerSession) GetCertificateByFileName(_md5 stri
 	return _Certificate.Contract.GetCertificateByFileName(&_Certificate.CallOpts, _md5)
 }
 
-// NameToAddress is a free data retrieval call binding the contract method 0x08d88aad.
+// GetCertificateCount is a free data retrieval call binding the contract method 0x8809f727.
 //
-// Solidity: function nameToAddress(string ) view returns(address)
-func (_Certificate *CertificateCaller) NameToAddress(opts *bind.CallOpts, arg0 string) (common.Address, error) {
+// Solidity: function getCertificateCount() view returns(uint256)
+func (_Certificate *CertificateCaller) GetCertificateCount(opts *bind.CallOpts) (*big.Int, error) {
 	var out []interface{}
-	err := _Certificate.contract.Call(opts, &out, "nameToAddress", arg0)
+	err := _Certificate.contract.Call(opts, &out, "getCertificateCount")
 
 	if err != nil {
-		return *new(common.Address), err
+		return *new(*big.Int), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
 
 	return out0, err
 
 }
 
-// NameToAddress is a free data retrieval call binding the contract method 0x08d88aad.
+// GetCertificateCount is a free data retrieval call binding the contract method 0x8809f727.
 //
-// Solidity: function nameToAddress(string ) view returns(address)
-func (_Certificate *CertificateSession) NameToAddress(arg0 string) (common.Address, error) {
-	return _Certificate.Contract.NameToAddress(&_Certificate.CallOpts, arg0)
+// Solidity: function getCertificateCount() view returns(uint256)
+func (_Certificate *CertificateSession) GetCertificateCount() (*big.Int, error) {
+	return _Certificate.Contract.GetCertificateCount(&_Certificate.CallOpts)
 }
 
-// NameToAddress is a free data retrieval call binding the contract method 0x08d88aad.
+// GetCertificateCount is a free data retrieval call binding the contract method 0x8809f727.
 //
-// Solidity: function nameToAddress(string ) view returns(address)
-func (_Certificate *CertificateCallerSession) NameToAddress(arg0 string) (common.Address, error) {
-	return _Certificate.Contract.NameToAddress(&_Certificate.CallOpts, arg0)
+// Solidity: function getCertificateCount() view returns(uint256)
+func (_Certificate *CertificateCallerSession) GetCertificateCount() (*big.Int, error) {
+	return _Certificate.Contract.GetCertificateCount(&_Certificate.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -436,44 +449,44 @@ func (_Certificate *CertificateCallerSession) Owner() (common.Address, error) {
 	return _Certificate.Contract.Owner(&_Certificate.CallOpts)
 }
 
-// CreateCertificate is a paid mutator transaction binding the contract method 0xf02c5a20.
+// CreateCertificate is a paid mutator transaction binding the contract method 0x2a2d8fa7.
 //
-// Solidity: function createCertificate(string _recipientName, string _recipientEmail) returns()
-func (_Certificate *CertificateTransactor) CreateCertificate(opts *bind.TransactOpts, _recipientName string, _recipientEmail string) (*types.Transaction, error) {
-	return _Certificate.contract.Transact(opts, "createCertificate", _recipientName, _recipientEmail)
+// Solidity: function createCertificate(string _recipientName, string _recipientEmail, string _courseName, string _courseCode) returns(address)
+func (_Certificate *CertificateTransactor) CreateCertificate(opts *bind.TransactOpts, _recipientName string, _recipientEmail string, _courseName string, _courseCode string) (*types.Transaction, error) {
+	return _Certificate.contract.Transact(opts, "createCertificate", _recipientName, _recipientEmail, _courseName, _courseCode)
 }
 
-// CreateCertificate is a paid mutator transaction binding the contract method 0xf02c5a20.
+// CreateCertificate is a paid mutator transaction binding the contract method 0x2a2d8fa7.
 //
-// Solidity: function createCertificate(string _recipientName, string _recipientEmail) returns()
-func (_Certificate *CertificateSession) CreateCertificate(_recipientName string, _recipientEmail string) (*types.Transaction, error) {
-	return _Certificate.Contract.CreateCertificate(&_Certificate.TransactOpts, _recipientName, _recipientEmail)
+// Solidity: function createCertificate(string _recipientName, string _recipientEmail, string _courseName, string _courseCode) returns(address)
+func (_Certificate *CertificateSession) CreateCertificate(_recipientName string, _recipientEmail string, _courseName string, _courseCode string) (*types.Transaction, error) {
+	return _Certificate.Contract.CreateCertificate(&_Certificate.TransactOpts, _recipientName, _recipientEmail, _courseName, _courseCode)
 }
 
-// CreateCertificate is a paid mutator transaction binding the contract method 0xf02c5a20.
+// CreateCertificate is a paid mutator transaction binding the contract method 0x2a2d8fa7.
 //
-// Solidity: function createCertificate(string _recipientName, string _recipientEmail) returns()
-func (_Certificate *CertificateTransactorSession) CreateCertificate(_recipientName string, _recipientEmail string) (*types.Transaction, error) {
-	return _Certificate.Contract.CreateCertificate(&_Certificate.TransactOpts, _recipientName, _recipientEmail)
-}
-
-// UpdateMd5Certificate is a paid mutator transaction binding the contract method 0xe2dab62d.
-//
-// Solidity: function updateMd5Certificate(address _recipient, string _newMd5) returns()
-func (_Certificate *CertificateTransactor) UpdateMd5Certificate(opts *bind.TransactOpts, _recipient common.Address, _newMd5 string) (*types.Transaction, error) {
-	return _Certificate.contract.Transact(opts, "updateMd5Certificate", _recipient, _newMd5)
+// Solidity: function createCertificate(string _recipientName, string _recipientEmail, string _courseName, string _courseCode) returns(address)
+func (_Certificate *CertificateTransactorSession) CreateCertificate(_recipientName string, _recipientEmail string, _courseName string, _courseCode string) (*types.Transaction, error) {
+	return _Certificate.Contract.CreateCertificate(&_Certificate.TransactOpts, _recipientName, _recipientEmail, _courseName, _courseCode)
 }
 
 // UpdateMd5Certificate is a paid mutator transaction binding the contract method 0xe2dab62d.
 //
-// Solidity: function updateMd5Certificate(address _recipient, string _newMd5) returns()
-func (_Certificate *CertificateSession) UpdateMd5Certificate(_recipient common.Address, _newMd5 string) (*types.Transaction, error) {
-	return _Certificate.Contract.UpdateMd5Certificate(&_Certificate.TransactOpts, _recipient, _newMd5)
+// Solidity: function updateMd5Certificate(address _certificateAddress, string _newMd5) returns()
+func (_Certificate *CertificateTransactor) UpdateMd5Certificate(opts *bind.TransactOpts, _certificateAddress common.Address, _newMd5 string) (*types.Transaction, error) {
+	return _Certificate.contract.Transact(opts, "updateMd5Certificate", _certificateAddress, _newMd5)
 }
 
 // UpdateMd5Certificate is a paid mutator transaction binding the contract method 0xe2dab62d.
 //
-// Solidity: function updateMd5Certificate(address _recipient, string _newMd5) returns()
-func (_Certificate *CertificateTransactorSession) UpdateMd5Certificate(_recipient common.Address, _newMd5 string) (*types.Transaction, error) {
-	return _Certificate.Contract.UpdateMd5Certificate(&_Certificate.TransactOpts, _recipient, _newMd5)
+// Solidity: function updateMd5Certificate(address _certificateAddress, string _newMd5) returns()
+func (_Certificate *CertificateSession) UpdateMd5Certificate(_certificateAddress common.Address, _newMd5 string) (*types.Transaction, error) {
+	return _Certificate.Contract.UpdateMd5Certificate(&_Certificate.TransactOpts, _certificateAddress, _newMd5)
+}
+
+// UpdateMd5Certificate is a paid mutator transaction binding the contract method 0xe2dab62d.
+//
+// Solidity: function updateMd5Certificate(address _certificateAddress, string _newMd5) returns()
+func (_Certificate *CertificateTransactorSession) UpdateMd5Certificate(_certificateAddress common.Address, _newMd5 string) (*types.Transaction, error) {
+	return _Certificate.Contract.UpdateMd5Certificate(&_Certificate.TransactOpts, _certificateAddress, _newMd5)
 }

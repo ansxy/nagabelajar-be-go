@@ -6,6 +6,7 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
 	custom_string "github.com/ansxy/nagabelajar-be-go/pkg/string"
+	"github.com/google/uuid"
 )
 
 // CreateCourse implements IFaceUsecase.
@@ -18,6 +19,7 @@ func (u *Usecase) CreateCourse(ctx context.Context, data *request.UpsertCourseRe
 	}
 
 	code := custom_string.GenerateCodeCourse(data.Name, int(count))
+	mediaID, _ := uuid.Parse(data.MediaID)
 	course := &model.Course{
 		Name:        data.Name,
 		Code:        code,
@@ -26,6 +28,8 @@ func (u *Usecase) CreateCourse(ctx context.Context, data *request.UpsertCourseRe
 		Description: data.Description,
 		IsPaid:      data.IsPaid,
 		IsArchived:  data.IsArchived,
+		Author:      data.Author,
+		MediaID:     mediaID,
 	}
 
 	return u.Repo.CreateCourse(ctx, course)

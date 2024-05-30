@@ -71,3 +71,24 @@ func (h *userHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	response.Success(w, res)
 }
+
+func (h *userHandler) LoginGoogle(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	var req request.LoginWithGoogleRequest
+	firebaseID := ctx.Value(constant.FirebaseID).(string)
+	req.FirebaseID = firebaseID
+
+	if err := h.v.ValidateStruct(r, &req); err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	res, err := h.uc.LoginWithGoogle(ctx, &req)
+	if err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	response.Success(w, res)
+
+}

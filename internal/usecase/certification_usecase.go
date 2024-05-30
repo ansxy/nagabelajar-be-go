@@ -5,7 +5,10 @@ import (
 	"context"
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"io"
+	"log"
+	"math/big"
 	"mime/multipart"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
@@ -14,6 +17,8 @@ import (
 	custom_error "github.com/ansxy/nagabelajar-be-go/pkg/error"
 	"github.com/ansxy/nagabelajar-be-go/pkg/html"
 	"github.com/ansxy/nagabelajar-be-go/pkg/pdf"
+	"github.com/ansxy/nagabelajar-be-go/pkg/qrcode"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/google/uuid"
 )
 
@@ -79,7 +84,7 @@ func (u *Usecase) ValidateCertificate(ctx context.Context, file *multipart.FileH
 
 // CreateCertificate implements IFaceUsecase.
 func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCertificateRequest) error {
-	userid := uuid.MustParse("01878c5c-98e1-4cbb-a86c-325442b69d22")
+	userid := uuid.MustParse("2a9278ab-3bdd-423e-8363-d8ec5a059107")
 	user, err := u.Repo.FindOneUser(ctx, &model.User{
 		UserID: userid,
 	})
@@ -87,22 +92,51 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 		return err
 	}
 
-	_, err = u.SM.Instance.CreateCertificate(u.SM.Auth, user.Name, user.Email)
+	address, err := u.SM.Instance.CreateCertificate(u.SM.Auth, user.Name, user.Email, "Course 4", "c4")
 	if err != nil {
 		return err
 	}
 
-	address, err := u.SM.Instance.GetAddressByName(nil, user.Name)
+	//Wait till the certificate is created
+	receipt, err := bind.WaitMined(ctx, u.SM.Client, address)
+
 	if err != nil {
 		return err
 	}
+
+	if receipt.Status == 0 {
+		return fmt.Errorf("transaction failed")
+	}
+
+	callOpts := &bind.CallOpts{
+		From: u.SM.Auth.From,
+	}
+
+	count, err := u.SM.Instance.GetCertificateCount(callOpts)
+	if err != nil {
+		return err
+	}
+
+	newCertAddress, err := u.SM.Instance.CertificateAddresses(callOpts, big.NewInt(count.Int64()-1))
+	if err != nil {
+		return err
+	}
+
+	png, err := qrcode.GenerateQRCode(newCertAddress.String())
+	if err != nil {
+		return err
+	}
+
+	log.Println(png)
 
 	data := map[string]interface{}{
-		"Address": address,
-		"Name":    user.Name,
+		"Address":    newCertAddress,
+		"Name":       user.Name,
+		"CourseName": "Course 4",
+		"QRImage":    fmt.Sprintf("data:image/png;base64,%s", png),
 	}
 
-	fileName := "certification_421" + user.Name
+	fileName := "anjengggg" + user.Name + ".pdf"
 	page, err := html.ParseTemplateHTML("certificate.html", data)
 	if err != nil {
 		return err
@@ -121,17 +155,19 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 	}
 
 	pdfFileReader := bytes.NewReader(buf)
-	err = u.FC.UploudFile(ctx, pdfFileHeader, pdfFileReader)
+	_, err = u.FC.UploudFile(ctx, pdfFileHeader, pdfFileReader)
 	if err != nil {
 		return err
 	}
 
 	md5File, err := u.FC.GetMd5Hash(ctx, fileName)
+
 	if err != nil {
 		return err
 	}
 
-	_, err = u.SM.Instance.UpdateMd5Certificate(u.SM.Auth, address, md5File)
+	_, err = u.SM.Instance.UpdateMd5Certificate(u.SM.Auth, newCertAddress, md5File)
+
 	if err != nil {
 		return err
 	}
@@ -141,7 +177,7 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 		FileName:          fileName,
 		FileUrl:           "-",
 		MD5:               md5File,
-		BlockchainAddress: address.String(),
+		BlockchainAddress: newCertAddress.String(),
 	}
 
 	return u.Repo.CreateCertificate(ctx, certificate)

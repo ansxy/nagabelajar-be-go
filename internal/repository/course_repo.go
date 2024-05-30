@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
@@ -24,10 +26,10 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 	var course []model.Course
 	var count int64
 
-	query := repo.db.WithContext(ctx).Model(&model.Course{})
-
+	query := repo.db.WithContext(ctx).Model(&model.Course{}).Preload("Category").Preload("Media")
 	if params.Keyword != "" {
-		query = query.Where("name LIKE ?", "%"+params.Keyword+"%")
+		lowerCaseKeyword := strings.ToLower(params.Keyword)
+		query = query.Where("LOWER(name) LIKE ?", fmt.Sprintf("%%%s%%", lowerCaseKeyword))
 	}
 
 	if params.Sort != "" {
@@ -49,7 +51,7 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 func (repo *Repository) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
 	var res *model.Course
 
-	if err := repo.BaseRepository.FindOne(repo.db.WithContext(ctx).Where("course_id = ?", courseID), &res); err != nil {
+	if err := repo.BaseRepository.FindOne(repo.db.WithContext(ctx).Where("course_id = ?", courseID).Preload("CourseDetail").Preload("Media"), &res); err != nil {
 		return nil, err
 	}
 	return res, nil

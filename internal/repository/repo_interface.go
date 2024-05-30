@@ -13,8 +13,8 @@ type IFaceRepository interface {
 	CreateUser(ctx context.Context, data *model.User) error
 	FindOneUser(ctx context.Context, query ...interface{}) (*model.User, error)
 	UpdateUser(ctx context.Context, data *model.User) error
-
-	//Category
+	FindUsers(ctx context.Context, params *request.ListUserRequest) ([]model.User, int64, error)
+	//CategoryP
 	CreateCategory(ctx context.Context, data *model.Category) error
 	FindListCategory(ctx context.Context, params *request.ListCategoryRequest) ([]model.Category, int64, error)
 	DeleteOneCategory(ctx context.Context, categoryID int) error
@@ -28,10 +28,17 @@ type IFaceRepository interface {
 	DeleteOneCourse(ctx context.Context, courseID int) error
 	UpdateCourse(ctx context.Context, data *model.Course) error
 
+	//DetailCourse
+	CreateCourseDetail(ctx context.Context, data *model.CourseDetail) error
+	FindOneCourseDetail(ctx context.Context, course_detail_id int) (*model.CourseDetail, error)
+
 	//Transaction
 	CreateTransaction(ctx context.Context, data *model.Transaction) error
 
 	//Certificate
 	CreateCertificate(ctx context.Context, data *model.Certificate) error
 	FindOneCertificate(ctx context.Context, query ...interface{}) (*model.Certificate, error)
+
+	//Media
+	CreateMedia(ctx context.Context, data *model.Media) error
 }

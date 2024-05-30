@@ -1,16 +1,15 @@
 package model
 
-type CourseContent struct {
+type CourseDetail struct {
 	CourseDetailID int    `gorm:"primaryKey;autoIncrement;not null" json:"course_detail_id"`
-	CourseID       int    `json:"course_id" gorm:"not null"`
-	Position       int    `json:"position" gorm:"not null"`
-	Title          string `gorm:"type:varchar(100);not null" json:"title"`
-	Content        string `gorm:"type:text;not null" json:"content"`
-	VideoURL       string `gorm:"type:text;" json:"video_url"`
+	Name           string `gorm:"type:varchar(100);not null" json:"name"`
+	Position       int    `gorm:"type:int;not null" json:"position"`
+	CourseID       int    `gorm:"type:int;not null" json:"course_id"`
+	Objective      string `gorm:"type:text" json:"objective"`
 
-	Course Course `json:"course"`
+	Content []CourseContent `json:"content"`
 }
 
-func (CourseContent) TableName() string {
-	return "tr_course_content"
+func (CourseDetail) TableName() string {
+	return "tr_course_details"
 }

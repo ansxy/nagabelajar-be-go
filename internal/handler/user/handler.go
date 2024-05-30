@@ -15,6 +15,7 @@ type userHandler struct {
 }
 
 func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middleware.Middleware) http.Handler {
+
 	routes := chi.NewRouter()
 	handler := &userHandler{
 		uc: uc,
@@ -24,6 +25,10 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 	routes.Route("/auth", func(route chi.Router) {
 		route.Post("/register", handler.RegisterUser)
 		route.Post("/login", handler.Login)
+		route.Route("/google", func(route chi.Router) {
+			route.Use(mw.AuthenticatedUser())
+			route.Post("/", handler.LoginGoogle)
+		})
 	})
 
 	routes.Route("/upload", func(route chi.Router) {
@@ -38,7 +43,7 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 	})
 
 	routes.Route("/certificate", func(route chi.Router) {
-		// route.Use(mw.AuthenticatedUser())
+		route.Post("/validate", handler.ValidateCertificate)
 		route.Post("/", handler.CreateCertificate)
 	})
 

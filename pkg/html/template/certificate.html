@@ -11,11 +11,88 @@
       rel="stylesheet"
     />
   </head>
+  <style>
+    body {
+      font-family: "DM Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-color: black;
+      border-style: solid;
+      border-width: 10px;
+    }
+    .container > div {
+      padding: 20px;
+    }
+    
+    .container > div > .section_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: white;
+      background-color: #0a0a23;
+      padding: 20px;
+      flex-direction: row;
+    }
+
+
+    .container > div > .section_body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+    }
+
+    .section_body > p {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size:  1.5rem;
+    }
+
+    .section_body > p > span {
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+      padding: 0;
+    }
+
+    figure {
+      margin-top: 20px;
+    }
+  </style>
 
   <body>
     <div class="container">
-      <h2>Owner :{{.Name}}</h2>
-      <h2>Address Blockchain :{{.Address}}</h2>
+      <div>
+        <section class="section_header">
+          <h2>//NAGABELAJAR</h2>
+          <h2>Issuer At : <span>{{.IssuerAt}}</span></h2>
+        </section>
+        <section class="section_body">
+          <p>This Certificat That <span>{{.Name}}</span></p>
+          <p>has successfully completed the NAGABELAJAR<span>
+            {{.CourseName}}
+          </span></p>
+          <figure >
+            <img src="{{.QRImage}}" alt="QRCode" />
+          </figure>
+          <h2>Address Blockchain :{{.Address}}</h2>
+        </section>
+      </div>
     </div>
   </body>
 </html>

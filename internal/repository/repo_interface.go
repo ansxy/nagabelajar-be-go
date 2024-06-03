@@ -24,7 +24,7 @@ type IFaceRepository interface {
 	//Course
 	CreateCourse(ctx context.Context, data *model.Course) error
 	FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error)
-	FindOneCourse(ctx context.Context, courseID string) (*model.Course, error)
+	FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error)
 	DeleteOneCourse(ctx context.Context, courseID int) error
 	UpdateCourse(ctx context.Context, data *model.Course) error
 
@@ -38,7 +38,16 @@ type IFaceRepository interface {
 	//Certificate
 	CreateCertificate(ctx context.Context, data *model.Certificate) error
 	FindOneCertificate(ctx context.Context, query ...interface{}) (*model.Certificate, error)
+	FindListCertificate(ctx context.Context, params *request.ListCertificateRequest) ([]model.Certificate, int64, error)
 
 	//Media
 	CreateMedia(ctx context.Context, data *model.Media) error
+
+	//Enrollment
+	CreateEnrollment(ctx context.Context, data *model.Enrollment) error
+
+	//Progress
+	CreateProgress(ctx context.Context, data *model.Progress) error
+	FindOneProgress(ctx context.Context, query ...interface{}) (*model.Progress, error)
+	UpdateProgress(ctx context.Context, data *model.Progress) error
 }

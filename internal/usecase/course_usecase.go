@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
@@ -46,6 +47,45 @@ func (u *Usecase) DeleteCourse(ctx context.Context, courseID int) error {
 }
 
 // FindOneCourse implements IFaceUsecase.
-func (u *Usecase) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
-	return u.Repo.FindOneCourse(ctx, courseID)
+func (u *Usecase) FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error) {
+	return u.Repo.FindOneCourse(ctx, params)
+}
+
+// EnrollCourse implements IFaceUsecase.
+func (u *Usecase) EnrollCourse(ctx context.Context, data *request.EnrollCourseRequest) error {
+
+	var course *model.Course
+
+	course, err := u.Repo.FindOneCourse(ctx, &request.GetOneCourseRequest{
+		CourseID: data.CourseID,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	for _, content := range course.CourseDetail {
+		courseID, err := strconv.Atoi(data.CourseID)
+		if err != nil {
+			return err
+		}
+		progress := &model.Progress{
+			UserID:         data.UserID.String(),
+			CourseID:       courseID,
+			CourseDetailID: content.CourseDetailID,
+			IsFinished:     false,
+		}
+
+		err = u.Repo.CreateProgress(ctx, progress)
+		if err != nil {
+			return err
+		}
+	}
+
+	enrollment := &model.Enrollment{
+		UserID:   data.UserID.String(),
+		CourseID: data.CourseID,
+	}
+
+	return u.Repo.CreateEnrollment(ctx, enrollment)
 }

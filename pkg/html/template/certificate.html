@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Masmiinah Invoice</title>
+    <title>Certificate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -27,17 +27,16 @@
       border-width: 10px;
     }
     .container > div {
-      padding: 20px;
+      padding: 10px;
     }
     
     .container > div > .section_header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
       color: white;
       background-color: #0a0a23;
-      padding: 20px;
+      padding: 10px;
       flex-direction: row;
     }
 
@@ -57,10 +56,9 @@
     }
 
     .section_body > p > span {
-      font-size: 2.5rem;
-      font-weight: 500;
-      margin: 0;
-      padding: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
     }
 
     h2 {
@@ -88,9 +86,8 @@
             {{.CourseName}}
           </span></p>
           <figure >
-            <img src="{{.QRImage}}" alt="QRCode" />
+            <img src="data:image/png;base64,{{.QRImage}}" alt="QRCode" />
           </figure>
-          <h2>Address Blockchain :{{.Address}}</h2>
         </section>
       </div>
     </div>

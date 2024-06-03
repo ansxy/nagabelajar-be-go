@@ -108,9 +108,13 @@ func (s *CourseUsecaseTestSuite) TestFindOneCourse() {
 			Name:     "Test Course",
 		}
 
-		s.mockRepo.EXPECT().FindOneCourse(s.ctx, courseID).Return(expectedCourse, nil)
+		req := &request.GetOneCourseRequest{
+			CourseID: courseID,
+		}
 
-		course, err := s.uc.FindOneCourse(s.ctx, courseID)
+		s.mockRepo.EXPECT().FindOneCourse(s.ctx, req).Return(expectedCourse, nil)
+
+		course, err := s.uc.FindOneCourse(s.ctx, req)
 
 		assert.NoError(s.T(), err, "Expected no error while finding one course")
 		assert.NotNil(s.T(), course, "Expected course to be found")
@@ -121,9 +125,13 @@ func (s *CourseUsecaseTestSuite) TestFindOneCourse() {
 	s.Run("Invalid course ID", func() {
 		courseID := "invalid"
 
-		s.mockRepo.EXPECT().FindOneCourse(s.ctx, courseID).Return(nil, errors.New("invalid course ID"))
+		req := &request.GetOneCourseRequest{
+			CourseID: courseID,
+		}
 
-		course, err := s.uc.FindOneCourse(s.ctx, courseID)
+		s.mockRepo.EXPECT().FindOneCourse(s.ctx, req).Return(nil, errors.New("invalid course ID"))
+
+		course, err := s.uc.FindOneCourse(s.ctx, req)
 
 		assert.Error(s.T(), err, "Expected error due to invalid course ID")
 		assert.Nil(s.T(), course, "Expected no course to be found")
@@ -133,9 +141,13 @@ func (s *CourseUsecaseTestSuite) TestFindOneCourse() {
 	s.Run("Course not found", func() {
 		courseID := "999"
 
-		s.mockRepo.EXPECT().FindOneCourse(s.ctx, courseID).Return(nil, gorm.ErrRecordNotFound)
+		req := &request.GetOneCourseRequest{
+			CourseID: courseID,
+		}
 
-		course, err := s.uc.FindOneCourse(s.ctx, courseID)
+		s.mockRepo.EXPECT().FindOneCourse(s.ctx, req).Return(nil, gorm.ErrRecordNotFound)
+
+		course, err := s.uc.FindOneCourse(s.ctx, req)
 
 		assert.Error(s.T(), err, "Expected error due to course not found")
 		assert.Nil(s.T(), course, "Expected no course to be found")

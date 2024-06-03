@@ -11,7 +11,7 @@ const (
 
 const (
 	BucketName         = "alpro-module.appspot.com/o"
-	FirebaseStorageURL = "https://firebasestorage.googleapis.com/v0/b/"
+	FirebaseStorageURL = "https://firebasestorage.googleapis.com/v0/b/alpro-module.appspot.com/o/"
 	StorageMediaALT    = "?alt=media"
 	MAX_FILE_SIZE      = 1024 * 1024 * 10
 	MAX_AGE_FILE       = 60 * 60 * 24 * 365

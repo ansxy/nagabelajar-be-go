@@ -29,6 +29,17 @@ var (
 	_ = abi.ConvertType
 )
 
+// CertificateOfCompletionCertificateData is an auto generated low-level Go binding around an user-defined struct.
+type CertificateOfCompletionCertificateData struct {
+	Md5        string
+	Name       string
+	Email      string
+	CourseName string
+	CourseCode string
+	Recipient  common.Address
+	Timestamp  *big.Int
+}
+
 // CertificateOfCompletionCourse is an auto generated low-level Go binding around an user-defined struct.
 type CertificateOfCompletionCourse struct {
 	CourseName string
@@ -48,7 +59,7 @@ type CertificateOfCompletionPerson struct {
 
 // CertificateMetaData contains all meta data concerning the Certificate contract.
 var CertificateMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"certificateAddresses\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"certificates\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"email\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Person\",\"name\":\"person\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"courseCode\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Course\",\"name\":\"course\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"md5\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.FileMetaData\",\"name\":\"fileMetaData\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_recipientName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_recipientEmail\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseCode\",\"type\":\"string\"}],\"name\":\"createCertificate\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"fileMd5toAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"}],\"name\":\"getCertificate\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_md5\",\"type\":\"string\"}],\"name\":\"getCertificateByFileName\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCertificateCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_newMd5\",\"type\":\"string\"}],\"name\":\"updateMd5Certificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"certificateAddresses\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"certificates\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"email\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Person\",\"name\":\"person\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"courseCode\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.Course\",\"name\":\"course\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"md5\",\"type\":\"string\"}],\"internalType\":\"structCertificateOfCompletion.FileMetaData\",\"name\":\"fileMetaData\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_recipientName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_recipientEmail\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_courseCode\",\"type\":\"string\"}],\"name\":\"createCertificate\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"fileMd5toAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"}],\"name\":\"getCertificate\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"md5\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"email\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"courseName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"courseCode\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"internalType\":\"structCertificateOfCompletion.CertificateData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_md5\",\"type\":\"string\"}],\"name\":\"getCertificateByFileName\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCertificateCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_certificateAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_newMd5\",\"type\":\"string\"}],\"name\":\"updateMd5Certificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 }
 
 // CertificateABI is the input ABI used to generate the binding from.
@@ -321,38 +332,32 @@ func (_Certificate *CertificateCallerSession) FileMd5toAddress(arg0 string) (com
 
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
-func (_Certificate *CertificateCaller) GetCertificate(opts *bind.CallOpts, _certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
+// Solidity: function getCertificate(address _certificateAddress) view returns((string,string,string,string,string,address,uint256))
+func (_Certificate *CertificateCaller) GetCertificate(opts *bind.CallOpts, _certificateAddress common.Address) (CertificateOfCompletionCertificateData, error) {
 	var out []interface{}
 	err := _Certificate.contract.Call(opts, &out, "getCertificate", _certificateAddress)
 
 	if err != nil {
-		return *new(string), *new(string), *new(string), *new(string), *new(string), *new(common.Address), *new(*big.Int), err
+		return *new(CertificateOfCompletionCertificateData), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
-	out1 := *abi.ConvertType(out[1], new(string)).(*string)
-	out2 := *abi.ConvertType(out[2], new(string)).(*string)
-	out3 := *abi.ConvertType(out[3], new(string)).(*string)
-	out4 := *abi.ConvertType(out[4], new(string)).(*string)
-	out5 := *abi.ConvertType(out[5], new(common.Address)).(*common.Address)
-	out6 := *abi.ConvertType(out[6], new(*big.Int)).(**big.Int)
+	out0 := *abi.ConvertType(out[0], new(CertificateOfCompletionCertificateData)).(*CertificateOfCompletionCertificateData)
 
-	return out0, out1, out2, out3, out4, out5, out6, err
+	return out0, err
 
 }
 
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
-func (_Certificate *CertificateSession) GetCertificate(_certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
+// Solidity: function getCertificate(address _certificateAddress) view returns((string,string,string,string,string,address,uint256))
+func (_Certificate *CertificateSession) GetCertificate(_certificateAddress common.Address) (CertificateOfCompletionCertificateData, error) {
 	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _certificateAddress)
 }
 
 // GetCertificate is a free data retrieval call binding the contract method 0xfd531e93.
 //
-// Solidity: function getCertificate(address _certificateAddress) view returns(string, string, string, string, string, address, uint256)
-func (_Certificate *CertificateCallerSession) GetCertificate(_certificateAddress common.Address) (string, string, string, string, string, common.Address, *big.Int, error) {
+// Solidity: function getCertificate(address _certificateAddress) view returns((string,string,string,string,string,address,uint256))
+func (_Certificate *CertificateCallerSession) GetCertificate(_certificateAddress common.Address) (CertificateOfCompletionCertificateData, error) {
 	return _Certificate.Contract.GetCertificate(&_Certificate.CallOpts, _certificateAddress)
 }
 

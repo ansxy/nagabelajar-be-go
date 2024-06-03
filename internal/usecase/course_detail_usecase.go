@@ -11,7 +11,9 @@ import (
 func (u *Usecase) CreateCourseDetail(ctx context.Context, data *request.UpserCourseDetailRequest) error {
 	var courseDetail *model.CourseDetail
 
-	course, err := u.Repo.FindOneCourse(ctx, data.CourseID)
+	course, err := u.Repo.FindOneCourse(ctx, &request.GetOneCourseRequest{
+		CourseID: data.CourseID,
+	})
 
 	if err != nil {
 		return err

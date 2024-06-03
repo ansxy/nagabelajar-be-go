@@ -2,11 +2,13 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
+	"gorm.io/gorm"
 )
 
 // CreateCourse implements IFaceRepository.
@@ -48,13 +50,34 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 }
 
 // FindOneCourse implements IFaceRepository.
-func (repo *Repository) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
-	var res *model.Course
+func (repo *Repository) FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error) {
+	var res model.Course
+	isEnrolled := false
+	query := repo.db.WithContext(ctx).Model(&model.Course{}).Where("tr_courses.course_id = ?", params.CourseID).Preload("Category").Preload("Media").Preload("CourseDetail").Preload("Progress")
 
-	if err := repo.BaseRepository.FindOne(repo.db.WithContext(ctx).Where("course_id = ?", courseID).Preload("CourseDetail").Preload("Media"), &res); err != nil {
+	if params.UserID != nil {
+		query = query.Joins("LEFT JOIN tr_enrollments ON tr_enrollments.course_id = tr_courses.course_id AND tr_enrollments.user_id = ?", *params.UserID).
+			Preload("Enrollment", func(db *gorm.DB) *gorm.DB {
+				return db.Unscoped().Where("user_id = ?", *params.UserID)
+			})
+	}
+
+	if err := query.First(&res).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			res.IsEnrolled = &isEnrolled
+			return &res, nil
+		}
 		return nil, err
 	}
-	return res, nil
+
+	if res.Enrollment == nil {
+		res.IsEnrolled = &isEnrolled
+	}
+
+	isEnrolled = true
+	res.IsEnrolled = &isEnrolled
+
+	return &res, nil
 }
 
 // UpdateCourse implements IFaceRepository.

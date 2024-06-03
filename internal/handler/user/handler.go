@@ -42,9 +42,29 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 		})
 	})
 
+	routes.Route("/course", func(route chi.Router) {
+		route.Use(mw.AuthenticatedUser())
+		route.Get("/", handler.GetListCourse)
+		route.Get("/{course_id}", handler.GetOneCourse)
+		route.Post("/{course_id}/enroll", handler.CreateEnrollment)
+	})
+
+	routes.Route("/progress", func(route chi.Router) {
+		route.Use(mw.AuthenticatedUser())
+		route.Put("/{progress_id}", handler.UpdateProgress)
+	})
+
+	routes.Route("/course/detail", func(route chi.Router) {
+		route.Use(mw.AuthenticatedUser())
+		route.Get("/{course_detail_id}", handler.GetOneCourse)
+	})
+
 	routes.Route("/certificate", func(route chi.Router) {
+		route.Use(mw.AuthenticatedUser())
 		route.Post("/validate", handler.ValidateCertificate)
+		route.Get("/validate", handler.ValidateCertificateByAddress)
 		route.Post("/", handler.CreateCertificate)
+		route.Get("/", handler.GetListCertificate)
 	})
 
 	return routes

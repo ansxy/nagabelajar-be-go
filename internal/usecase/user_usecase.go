@@ -69,3 +69,8 @@ func (u *Usecase) LoginWithGoogle(ctx context.Context, data *request.LoginWithGo
 	}
 	return user, nil
 }
+
+// FindOneUser implements IFaceUsecase.
+func (u *Usecase) FindOneUser(ctx context.Context, data *request.LoginRequest) (*model.User, error) {
+	return u.Repo.FindOneUser(ctx, "firebase_id = ?", data.FirebaseID)
+}

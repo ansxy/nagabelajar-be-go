@@ -22,6 +22,7 @@ func NewHTTPHandler(conf *config.Config, uc usecase.IFaceUsecase, fc firebase.IF
 	validator := custom_validator.NewValidator(go_validator.New())
 	mw := middleware.Middleware{
 		FCS: fc,
+		UC:  uc,
 	}
 
 	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout})

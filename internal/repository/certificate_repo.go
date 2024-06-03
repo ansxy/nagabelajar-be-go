@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
+	"github.com/ansxy/nagabelajar-be-go/internal/request"
 )
 
 // CreateCertificate implements IFaceRepository.
@@ -20,4 +21,26 @@ func (repo *Repository) FindOneCertificate(ctx context.Context, query ...interfa
 	}
 
 	return res, nil
+}
+
+// FindListCertificate implements IFaceRepository.
+func (repo *Repository) FindListCertificate(ctx context.Context, params *request.ListCertificateRequest) ([]model.Certificate, int64, error) {
+	var certificate []model.Certificate
+	var count int64
+
+	query := repo.db.WithContext(ctx).Model(&model.Certificate{}).Preload("Course")
+
+	if params.UserID != nil {
+		query = query.Where("user_id = ?", *params.UserID)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err := query.Limit(params.PerPage).Offset((params.Page - 1) * params.PerPage).Find(&certificate).Error; err != nil {
+		return nil, 0, err
+	}
+
+	return certificate, count, nil
 }

@@ -11,6 +11,7 @@ type Config struct {
 	FirebaseConfig      FirebaseConfig
 	XenditConfig        XenditConfig
 	SmartContractConfig SmartContractConfig
+	FRONTENDURL         string
 }
 
 type PostgresConfig struct {
@@ -73,5 +74,6 @@ func SetConfig() *Config {
 			SmartContractAddress: v.GetString("SMART_CONTRACT_ADDRESS"),
 			Key:                  v.GetString("KEYSTORE_BLOCKCHAIN"),
 		},
+		FRONTENDURL: v.GetString("FRONTEND_URL"),
 	}
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
 	"github.com/ansxy/nagabelajar-be-go/internal/response"
+	"github.com/ansxy/nagabelajar-be-go/pkg/constant"
 	custom_error "github.com/ansxy/nagabelajar-be-go/pkg/error"
 )
 
@@ -34,12 +35,47 @@ func (h *userHandler) ValidateCertificate(w http.ResponseWriter, r *http.Request
 }
 
 func (h *userHandler) CreateCertificate(w http.ResponseWriter, r *http.Request) {
-	var req *request.CreateCertificateRequest
-	err := h.uc.CreateCertificate(r.Context(), req)
+	var req request.CreateCertificateRequest
+	req.FirebaseID = r.Context().Value(constant.FirebaseID).(string)
+
+	if err := h.v.ValidateStruct(r, &req); err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	err := h.uc.CreateCertificate(r.Context(), &req)
 	if err != nil {
 		response.Error(w, err)
 		return
 	}
 
 	response.Success(w, nil)
+}
+
+func (h *userHandler) ValidateCertificateByAddress(w http.ResponseWriter, r *http.Request) {
+	address := r.URL.Query().Get("address")
+
+	res, err := h.uc.ValidateCertificateByAddress(r.Context(), address)
+	if err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	response.Success(w, res)
+}
+
+func (h *userHandler) GetListCertificate(w http.ResponseWriter, r *http.Request) {
+	var req request.ListCertificateRequest
+	req.BaseQuery = request.BaseNewQuery(r)
+	req.PerPage = -1
+	req.Page = 1
+	req.FirebaseID = r.Context().Value(constant.FirebaseID).(string)
+
+	res, count, err := h.uc.GetListCertificate(r.Context(), &req)
+	if err != nil {
+		response.Error(w, err)
+		return
+	}
+
+	response.Pagination(w, res, req.Page, req.PerPage, count)
 }

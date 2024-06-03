@@ -7,32 +7,24 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"log"
 	"math/big"
 	"mime/multipart"
+	"strconv"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
 	"github.com/ansxy/nagabelajar-be-go/pkg/constant"
 	custom_error "github.com/ansxy/nagabelajar-be-go/pkg/error"
+	goeth "github.com/ansxy/nagabelajar-be-go/pkg/go-eth/artifact"
 	"github.com/ansxy/nagabelajar-be-go/pkg/html"
 	"github.com/ansxy/nagabelajar-be-go/pkg/pdf"
 	"github.com/ansxy/nagabelajar-be-go/pkg/qrcode"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/google/uuid"
+	"github.com/ethereum/go-ethereum/common"
 )
 
 // ValidateCertificate implements IFaceUsecase.
 func (u *Usecase) ValidateCertificate(ctx context.Context, file *multipart.FileHeader) error {
-	userid := uuid.MustParse("01878c5c-98e1-4cbb-a86c-325442b69d22")
-	user, err := u.Repo.FindOneUser(ctx, &model.User{
-		UserID: userid,
-	})
-
-	if err != nil {
-		return err
-	}
-
 	fileReader, err := file.Open()
 	if err != nil {
 		return err
@@ -46,14 +38,19 @@ func (u *Usecase) ValidateCertificate(ctx context.Context, file *multipart.FileH
 
 	hash := hasher.Sum(nil)
 	md5Hash := hex.EncodeToString(hash)
+	callOpts := &bind.CallOpts{
+		From: u.SM.Auth.From,
+	}
 
-	// _, err = u.SM.Instance.CreateCertificate(u.SM.Auth, md5Hash, user.Name,ema)
-	// if err != nil {
-	// 	return err
-	// }
+	data, err := u.SM.Instance.GetCertificateByFileName(callOpts, md5Hash)
+	if data.String() == "0x0000000000000000000000000000000000000000" {
+		err = custom_error.SetCostumeError(&custom_error.ErrorContext{
+			HTTPCode: constant.ErrorCodeResponseMap[constant.DefaultNotValidCertification],
+			Message:  constant.ErrorMessageMap[constant.DefaultNotValidCertification],
+		})
+		return err
+	}
 
-	file.Filename = md5Hash + "certification_" + user.Name
-	certificate, err := u.FC.GetOneFile(ctx, file.Filename)
 	if err != nil {
 		err = custom_error.SetCostumeError(&custom_error.ErrorContext{
 			HTTPCode: constant.ErrorCodeResponseMap[constant.DefaultNotValidCertification],
@@ -61,38 +58,27 @@ func (u *Usecase) ValidateCertificate(ctx context.Context, file *multipart.FileH
 		})
 		return err
 	}
-
-	hashMd5Certificate := md5.New()
-	if _, err := io.Copy(hashMd5Certificate, certificate); err != nil {
-		return err
-	}
-
-	hashCertificate := hashMd5Certificate.Sum(nil)
-	md5HashCertificate := hex.EncodeToString(hashCertificate)
-
-	if md5Hash != md5HashCertificate {
-		err = custom_error.SetCostumeError(&custom_error.ErrorContext{
-			HTTPCode: constant.ErrorCodeResponseMap[constant.DefaultNotValidCertification],
-			Message:  constant.ErrorMessageMap[constant.DefaultNotValidCertification],
-		})
-
-		return err
-	}
-
 	return nil
 }
 
 // CreateCertificate implements IFaceUsecase.
 func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCertificateRequest) error {
-	userid := uuid.MustParse("2a9278ab-3bdd-423e-8363-d8ec5a059107")
 	user, err := u.Repo.FindOneUser(ctx, &model.User{
-		UserID: userid,
+		FirebaseID: req.FirebaseID,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	course, err := u.Repo.FindOneCourse(ctx, &request.GetOneCourseRequest{
+		CourseID: strconv.Itoa(int(req.CourseId)),
 	})
 	if err != nil {
 		return err
 	}
 
-	address, err := u.SM.Instance.CreateCertificate(u.SM.Auth, user.Name, user.Email, "Course 4", "c4")
+	address, err := u.SM.Instance.CreateCertificate(u.SM.Auth, user.Name, user.Email, course.Name, course.Code)
 	if err != nil {
 		return err
 	}
@@ -122,21 +108,21 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 		return err
 	}
 
-	png, err := qrcode.GenerateQRCode(newCertAddress.String())
+	qrImage, err := qrcode.GenerateQRCode(fmt.Sprintf("%s/certificate?address=%s", u.Conf.FRONTENDURL, newCertAddress.String()))
 	if err != nil {
 		return err
 	}
 
-	log.Println(png)
-
+	time := address.Time().Format("2006-01-02")
 	data := map[string]interface{}{
 		"Address":    newCertAddress,
 		"Name":       user.Name,
-		"CourseName": "Course 4",
-		"QRImage":    fmt.Sprintf("data:image/png;base64,%s", png),
+		"CourseName": course.Name,
+		"QRImage":    qrImage,
+		"IssuerAt":   time,
 	}
 
-	fileName := "anjengggg" + user.Name + ".pdf"
+	fileName := newCertAddress.String() + user.Name + course.Code + ".pdf"
 	page, err := html.ParseTemplateHTML("certificate.html", data)
 	if err != nil {
 		return err
@@ -175,10 +161,52 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 	certificate := &model.Certificate{
 		UserID:            user.UserID.String(),
 		FileName:          fileName,
-		FileUrl:           "-",
+		FileUrl:           fmt.Sprintf("%s%s%s", constant.FirebaseStorageURL, fileName, constant.StorageMediaALT),
 		MD5:               md5File,
 		BlockchainAddress: newCertAddress.String(),
 	}
 
 	return u.Repo.CreateCertificate(ctx, certificate)
+}
+
+// ValidateCertificateByAddress implements IFaceUsecase.
+func (u *Usecase) ValidateCertificateByAddress(ctx context.Context, address string) (*goeth.CertificateOfCompletionCertificateData, error) {
+	callOpts := &bind.CallOpts{
+		From: u.SM.Auth.From,
+	}
+
+	addr := common.HexToAddress(address)
+	data, err := u.SM.Instance.GetCertificate(callOpts, addr)
+
+	if data.Recipient.String() == "0x0000000000000000000000000000000000000000" {
+		err = custom_error.SetCostumeError(&custom_error.ErrorContext{
+			HTTPCode: constant.ErrorCodeResponseMap[constant.DefaultNotValidCertification],
+			Message:  constant.ErrorMessageMap[constant.DefaultNotValidCertification],
+		})
+		return nil, err
+
+	}
+
+	if err != nil {
+		err = custom_error.SetCostumeError(&custom_error.ErrorContext{
+			HTTPCode: constant.ErrorCodeResponseMap[constant.DefaultNotValidCertification],
+			Message:  constant.ErrorMessageMap[constant.DefaultNotValidCertification],
+		})
+		return nil, err
+	}
+
+	return &data, err
+}
+
+// GetListCertificate implements IFaceUsecase.
+func (u *Usecase) GetListCertificate(ctx context.Context, params *request.ListCertificateRequest) ([]model.Certificate, int64, error) {
+	var certificate []model.Certificate
+	var count int64
+
+	certificate, count, err := u.Repo.FindListCertificate(ctx, params)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return certificate, count, nil
 }

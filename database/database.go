@@ -18,6 +18,8 @@ func AutoMigrate(db *gorm.DB) error {
 		&model.CourseExercise{},
 		&model.CoursePractice{},
 		&model.CourseSubContent{},
+		&model.Enrollment{},
+		&model.Progress{},
 	)
 
 	return nil

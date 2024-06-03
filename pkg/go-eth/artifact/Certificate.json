@@ -1,57 +1,5 @@
 [
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_recipientName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_recipientEmail",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_courseName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_courseCode",
-				"type": "string"
-			}
-		],
-		"name": "createCertificate",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_certificateAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_newMd5",
-				"type": "string"
-			}
-		],
-		"name": "updateMd5Certificate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
@@ -149,6 +97,40 @@
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "_recipientName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_recipientEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_courseName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_courseCode",
+				"type": "string"
+			}
+		],
+		"name": "createCertificate",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "",
 				"type": "string"
 			}
@@ -175,39 +157,46 @@
 		"name": "getCertificate",
 		"outputs": [
 			{
-				"internalType": "string",
+				"components": [
+					{
+						"internalType": "string",
+						"name": "md5",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "email",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "courseName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "courseCode",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct CertificateOfCompletion.CertificateData",
 				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",
@@ -256,6 +245,24 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_certificateAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_newMd5",
+				"type": "string"
+			}
+		],
+		"name": "updateMd5Certificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

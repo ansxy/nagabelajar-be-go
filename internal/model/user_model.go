@@ -17,6 +17,8 @@ type User struct {
 
 	UserInfo    UserInfo      `json:"user_info" gorm:"foreignKey:UserID;references:UserID"`
 	Certificate []Certificate `json:"certificate"`
+	Enrollment  []Enrollment  `json:"enrollment"`
+	Progress    []Progress    `json:"progress"`
 }
 
 func (User) TableName() string {

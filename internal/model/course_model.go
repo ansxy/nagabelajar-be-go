@@ -18,6 +18,7 @@ type Course struct {
 	MediaID     uuid.UUID `json:"media_id" gorm:"type:uuid;not null"`
 	IsPaid      *bool     `gorm:"type:boolean;default:false" json:"is_paid"`
 	IsArchived  *bool     `gorm:"type:boolean;default:false" json:"is_archived"`
+	IsEnrolled  *bool     `gorm:"-" json:"is_enrolled"`
 
 	CreatedAt time.Time      `gorm:"type:timestamp;default:now()" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"type:timestamp;default:now()" json:"updated_at"`
@@ -26,6 +27,9 @@ type Course struct {
 	Category     Category       `json:"category"`
 	Media        Media          `json:"media"`
 	CourseDetail []CourseDetail `json:"course_detail"`
+	Enrollment   []Enrollment   `json:"enrollment"`
+	Progress     []Progress     `json:"progress"`
+	Certificate  []Certificate  `json:"certificate"`
 }
 
 func (Course) TableName() string {

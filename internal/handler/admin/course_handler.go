@@ -43,7 +43,7 @@ func (h *adminHandler) GetListCourse(w http.ResponseWriter, r *http.Request) {
 func (h *adminHandler) GetOneCourse(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	courseID := chi.URLParam(r, "course_id")
-	course, err := h.uc.FindOneCourse(ctx, courseID)
+	course, err := h.uc.FindOneCourse(ctx, &request.GetOneCourseRequest{CourseID: courseID})
 	if err != nil {
 		response.Error(w, err)
 		return

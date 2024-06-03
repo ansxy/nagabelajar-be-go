@@ -17,7 +17,7 @@ func (repo *Repository) FindOneUser(ctx context.Context, query ...interface{}) (
 	var res *model.User
 
 	if err := repo.BaseRepository.FindOne(
-		repo.db.WithContext(ctx).Where(query[0], query[:1]...), &res,
+		repo.db.WithContext(ctx).Where(query[0], query[1:]...), &res,
 	); err != nil {
 		return nil, err
 	}

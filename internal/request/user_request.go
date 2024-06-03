@@ -7,8 +7,9 @@ type UpsertUserRequest struct {
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" required:"true" validate:"required,email"`
-	Password string `json:"password" required:"true" validate:"required"`
+	Email      string `json:"email" required:"true" validate:"required,email"`
+	Password   string `json:"password" required:"true" validate:"required"`
+	FirebaseID string `json:"-"`
 }
 
 type LoginWithGoogleRequest struct {

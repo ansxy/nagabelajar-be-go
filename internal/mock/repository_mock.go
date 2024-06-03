@@ -112,6 +112,48 @@ func (mr *MockIFaceRepositoryMockRecorder) CreateCourseDetail(ctx, data any) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCourseDetail", reflect.TypeOf((*MockIFaceRepository)(nil).CreateCourseDetail), ctx, data)
 }
 
+// CreateEnrollment mocks base method.
+func (m *MockIFaceRepository) CreateEnrollment(ctx context.Context, data *model.Enrollment) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateEnrollment", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateEnrollment indicates an expected call of CreateEnrollment.
+func (mr *MockIFaceRepositoryMockRecorder) CreateEnrollment(ctx, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateEnrollment", reflect.TypeOf((*MockIFaceRepository)(nil).CreateEnrollment), ctx, data)
+}
+
+// CreateMedia mocks base method.
+func (m *MockIFaceRepository) CreateMedia(ctx context.Context, data *model.Media) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateMedia", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMedia indicates an expected call of CreateMedia.
+func (mr *MockIFaceRepositoryMockRecorder) CreateMedia(ctx, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMedia", reflect.TypeOf((*MockIFaceRepository)(nil).CreateMedia), ctx, data)
+}
+
+// CreateProgress mocks base method.
+func (m *MockIFaceRepository) CreateProgress(ctx context.Context, data *model.Progress) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateProgress", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateProgress indicates an expected call of CreateProgress.
+func (mr *MockIFaceRepositoryMockRecorder) CreateProgress(ctx, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProgress", reflect.TypeOf((*MockIFaceRepository)(nil).CreateProgress), ctx, data)
+}
+
 // CreateTransaction mocks base method.
 func (m *MockIFaceRepository) CreateTransaction(ctx context.Context, data *model.Transaction) error {
 	m.ctrl.T.Helper()
@@ -184,6 +226,22 @@ func (mr *MockIFaceRepositoryMockRecorder) FindListCategory(ctx, params any) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindListCategory", reflect.TypeOf((*MockIFaceRepository)(nil).FindListCategory), ctx, params)
 }
 
+// FindListCertificate mocks base method.
+func (m *MockIFaceRepository) FindListCertificate(ctx context.Context, params *request.ListCertificateRequest) ([]model.Certificate, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindListCertificate", ctx, params)
+	ret0, _ := ret[0].([]model.Certificate)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FindListCertificate indicates an expected call of FindListCertificate.
+func (mr *MockIFaceRepositoryMockRecorder) FindListCertificate(ctx, params any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindListCertificate", reflect.TypeOf((*MockIFaceRepository)(nil).FindListCertificate), ctx, params)
+}
+
 // FindListCourse mocks base method.
 func (m *MockIFaceRepository) FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error) {
 	m.ctrl.T.Helper()
@@ -236,18 +294,18 @@ func (mr *MockIFaceRepositoryMockRecorder) FindOneCertificate(ctx any, query ...
 }
 
 // FindOneCourse mocks base method.
-func (m *MockIFaceRepository) FindOneCourse(ctx context.Context, courseID string) (*model.Course, error) {
+func (m *MockIFaceRepository) FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindOneCourse", ctx, courseID)
+	ret := m.ctrl.Call(m, "FindOneCourse", ctx, params)
 	ret0, _ := ret[0].(*model.Course)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindOneCourse indicates an expected call of FindOneCourse.
-func (mr *MockIFaceRepositoryMockRecorder) FindOneCourse(ctx, courseID any) *gomock.Call {
+func (mr *MockIFaceRepositoryMockRecorder) FindOneCourse(ctx, params any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneCourse", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneCourse), ctx, courseID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneCourse", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneCourse), ctx, params)
 }
 
 // FindOneCourseDetail mocks base method.
@@ -263,6 +321,26 @@ func (m *MockIFaceRepository) FindOneCourseDetail(ctx context.Context, course_de
 func (mr *MockIFaceRepositoryMockRecorder) FindOneCourseDetail(ctx, course_detail_id any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneCourseDetail", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneCourseDetail), ctx, course_detail_id)
+}
+
+// FindOneProgress mocks base method.
+func (m *MockIFaceRepository) FindOneProgress(ctx context.Context, query ...any) (*model.Progress, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range query {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FindOneProgress", varargs...)
+	ret0, _ := ret[0].(*model.Progress)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOneProgress indicates an expected call of FindOneProgress.
+func (mr *MockIFaceRepositoryMockRecorder) FindOneProgress(ctx any, query ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, query...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneProgress", reflect.TypeOf((*MockIFaceRepository)(nil).FindOneProgress), varargs...)
 }
 
 // FindOneUser mocks base method.
@@ -313,6 +391,20 @@ func (m *MockIFaceRepository) UpdateCourse(ctx context.Context, data *model.Cour
 func (mr *MockIFaceRepositoryMockRecorder) UpdateCourse(ctx, data any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCourse", reflect.TypeOf((*MockIFaceRepository)(nil).UpdateCourse), ctx, data)
+}
+
+// UpdateProgress mocks base method.
+func (m *MockIFaceRepository) UpdateProgress(ctx context.Context, data *model.Progress) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProgress", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgress indicates an expected call of UpdateProgress.
+func (mr *MockIFaceRepositoryMockRecorder) UpdateProgress(ctx, data any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgress", reflect.TypeOf((*MockIFaceRepository)(nil).UpdateProgress), ctx, data)
 }
 
 // UpdateUser mocks base method.

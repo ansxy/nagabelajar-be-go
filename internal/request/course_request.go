@@ -1,5 +1,7 @@
 package request
 
+import "github.com/google/uuid"
+
 type ListCourseRequest struct {
 	BaseQuery
 	Name       string `json:"name"`
@@ -21,6 +23,11 @@ type UpsertCourseRequest struct {
 type TakeCourseRequest struct {
 	UserID   string `json:"-"`
 	CourseID string `json:"-"`
+}
+
+type GetOneCourseRequest struct {
+	CourseID string     `json:"course_id" validate:"required"`
+	UserID   *uuid.UUID `json:"-"`
 }
 
 type UpsertCourseContentRequest struct {
@@ -51,4 +58,14 @@ type UpserCourseDetailRequest struct {
 	Position      int                          `json:"position" validate:"required"`
 	Objective     string                       `json:"objective" validate:"required"`
 	CourseContent []UpsertCourseContentRequest `json:"course_content" validate:"required"`
+}
+
+type EnrollCourseRequest struct {
+	UserID   uuid.UUID `json:"user_id" validate:"required"`
+	CourseID string    `json:"course_id" validate:"required"`
+}
+
+type UpdateProgressRequest struct {
+	ProgressID int    `json:"progress_id" validate:"required"`
+	UserID     string `json:"-" validate:"required"`
 }

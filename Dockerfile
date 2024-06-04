@@ -1,4 +1,4 @@
-FROM golang:1.21.1-alpine3.18 AS builder
+FROM golang:1.22.1-alpine3.18 AS builder
 
 WORKDIR /app
 COPY . .
@@ -13,6 +13,7 @@ WORKDIR /app
 
 COPY --from=builder /app/main .
 COPY .env .
+COPY service_account.json .
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
 

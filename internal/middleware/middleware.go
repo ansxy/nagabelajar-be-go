@@ -44,16 +44,14 @@ func (m Middleware) AuthenticatedUser() func(h http.Handler) http.Handler {
 				return
 			}
 
-			user, err := m.UC.FindOneUser(ctx, &request.LoginRequest{
+			user, _ := m.UC.FindOneUser(ctx, &request.LoginRequest{
 				FirebaseID: resJwt.UID,
 			})
 
-			if err != nil {
-				response.UnauthorizedError(w)
-				return
+			if user != nil {
+				ctx = context.WithValue(ctx, constant.UserID, user.UserID.String())
 			}
 
-			ctx = context.WithValue(ctx, constant.UserID, user.UserID.String())
 			ctx = context.WithValue(ctx, constant.FirebaseID, resJwt.UID)
 
 			h.ServeHTTP(w, r.WithContext(ctx))

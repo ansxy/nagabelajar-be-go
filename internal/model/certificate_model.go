@@ -15,6 +15,9 @@ type Certificate struct {
 	FileUrl           string    `json:"file_url" gorm:"type:varchar(255);not null"`
 	MD5               string    `json:"md5" gorm:"type:varchar(255);not null"`
 	BlockchainAddress string    `json:"blockchain_address" gorm:"type:varchar(255);not null"`
+	GasUsed           string    `json:"gas_used" gorm:"type:numeric;"`
+	GasPrice          string    `json:"gas_price" gorm:"type:numeric;"`
+	Cost              string    `json:"cost" gorm:"type:numeric;"`
 
 	CreatedAt time.Time      `json:"created_at" gorm:"type:timestamp; default:now()"`
 	UpdatedAt time.Time      `json:"updated_at" gorm:"type:timestamp; default:now()"`

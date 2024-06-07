@@ -26,3 +26,21 @@ func (r *Repository) FindOneProgress(ctx context.Context, query ...interface{}) 
 func (r *Repository) UpdateProgress(ctx context.Context, data *model.Progress) error {
 	return r.BaseRepository.Update(r.db.WithContext(ctx), data)
 }
+
+// FindListProgress is a function to find list progress
+func (r *Repository) FindListProgress(ctx context.Context, courseID int, userID string) ([]model.Progress, int64, error) {
+	var progress []model.Progress
+	var count int64
+
+	query := r.db.WithContext(ctx).Model(&model.Progress{}).Where("course_id = ? AND user_id = ?", courseID, userID)
+
+	if err := query.Count(&count).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err := query.Find(&progress).Error; err != nil {
+		return nil, 0, err
+	}
+
+	return progress, count, nil
+}

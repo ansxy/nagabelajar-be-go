@@ -6,6 +6,7 @@ type ListCourseRequest struct {
 	BaseQuery
 	Name       string `json:"name"`
 	CategoryID int    `json:"category_id"`
+	UserID     string `json:"-"`
 }
 
 type UpsertCourseRequest struct {

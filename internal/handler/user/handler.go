@@ -56,7 +56,7 @@ func NewRouter(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 
 	routes.Route("/course/detail", func(route chi.Router) {
 		route.Use(mw.AuthenticatedUser())
-		route.Get("/{course_detail_id}", handler.GetOneCourse)
+		route.Get("/{course_detail_id}", handler.FindCourseDetail)
 	})
 
 	routes.Route("/certificate", func(route chi.Router) {

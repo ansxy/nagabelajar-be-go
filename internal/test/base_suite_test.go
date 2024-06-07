@@ -8,6 +8,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	mock_repo "github.com/ansxy/nagabelajar-be-go/internal/mock"
 	"github.com/go-playground/validator/v10"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -18,11 +19,14 @@ import (
 // BaseTestSuite is a base test suite for setting up common test environment
 type BaseTestSuite struct {
 	suite.Suite
-	mockRepo   *mock_repo.MockIFaceRepository
-	ctx        context.Context
-	goMockCtrl *gomock.Controller
-	dbMock     sqlmock.Sqlmock
-	validate   *validator.Validate
+	mockRepo     *mock_repo.MockIFaceRepository
+	ctx          context.Context
+	goMockCtrl   *gomock.Controller
+	dbMock       sqlmock.Sqlmock
+	firebaseMock *mock_repo.MockIFaceFCM
+	validate     *validator.Validate
+	SM           mock.Mock
+	serviceMock  *mock_repo.MockIService
 }
 
 // SetupTest sets up the common test environment
@@ -37,6 +41,8 @@ func (s *BaseTestSuite) SetupTest() {
 	s.ctx = context.TODO()
 	s.goMockCtrl = gomock.NewController(s.T())
 	s.mockRepo = mock_repo.NewMockIFaceRepository(s.goMockCtrl)
+	s.firebaseMock = mock_repo.NewMockIFaceFCM(s.goMockCtrl)
+	s.serviceMock = mock_repo.NewMockIService(s.goMockCtrl)
 	s.validate = validator.New()
 	s.validate.RegisterValidation("positive", func(fl validator.FieldLevel) bool {
 		return fl.Field().Int() > 0

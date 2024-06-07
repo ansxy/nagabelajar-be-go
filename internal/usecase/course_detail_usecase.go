@@ -30,12 +30,12 @@ func (u *Usecase) CreateCourseDetail(ctx context.Context, data *request.UpserCou
 		courseContent := model.CourseContent{
 			Title:         content.Title,
 			CourseContent: content.Content,
-			SubContent: []model.CourseSubContent{
-				{
-					Title:   content.SubContent.Title,
-					Content: content.SubContent.Content,
-				},
-			},
+			// SubContent: []model.CourseSubContent{
+			// 	{
+			// 		Title:   content.SubContent.Title,
+			// 		Content: content.SubContent.Content,
+			// 	},
+			// },
 		}
 
 		for _, exercise := range content.Exercise {
@@ -48,25 +48,6 @@ func (u *Usecase) CreateCourseDetail(ctx context.Context, data *request.UpserCou
 		courseDetail.Content = append(courseDetail.Content, courseContent)
 
 	}
-
-	// for _, content := range data.CourseContent {
-	// 	courseDetail.Content = append(courseDetail.Content, model.CourseContent{
-	// 		Title:         content.Title,
-	// 		CourseContent: content.Content,
-	// 		SubContent: []model.CourseSubContent{
-	// 			{
-	// 				Title:   content.SubContent.Title,
-	// 				Content: content.SubContent.Content,
-	// 			},
-	// 		},
-	// 		Exercise: []model.CourseExercise{
-	// 			{
-	// 				Title:   content.Exercise.Title,
-	// 				Content: content.Exercise.Content,
-	// 			},
-	// 		},
-	// 	})
-	// }
 
 	return u.Repo.CreateCourseDetail(ctx, courseDetail)
 

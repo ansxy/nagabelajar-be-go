@@ -20,6 +20,7 @@ func AutoMigrate(db *gorm.DB) error {
 		&model.CourseSubContent{},
 		&model.Enrollment{},
 		&model.Progress{},
+		&model.Assigment{},
 	)
 
 	return nil

@@ -7,7 +7,8 @@ type CourseDetail struct {
 	CourseID       int    `gorm:"type:int;not null" json:"course_id"`
 	Objective      string `gorm:"type:text" json:"objective"`
 
-	Content []CourseContent `json:"content"`
+	Content   []CourseContent `json:"content"`
+	Assigment []Assigment     `json:"assigment"`
 }
 
 func (CourseDetail) TableName() string {

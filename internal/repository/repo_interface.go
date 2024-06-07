@@ -50,4 +50,5 @@ type IFaceRepository interface {
 	CreateProgress(ctx context.Context, data *model.Progress) error
 	FindOneProgress(ctx context.Context, query ...interface{}) (*model.Progress, error)
 	UpdateProgress(ctx context.Context, data *model.Progress) error
+	FindListProgress(ctx context.Context, courseID int, userID string) ([]model.Progress, int64, error)
 }

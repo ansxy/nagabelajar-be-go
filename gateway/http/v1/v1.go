@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	admin_handler "github.com/ansxy/nagabelajar-be-go/internal/handler/admin"
+	public_handler "github.com/ansxy/nagabelajar-be-go/internal/handler/public"
 	user_handler "github.com/ansxy/nagabelajar-be-go/internal/handler/user"
 	"github.com/ansxy/nagabelajar-be-go/internal/middleware"
 	"github.com/ansxy/nagabelajar-be-go/internal/usecase"
@@ -16,6 +17,7 @@ func NewRoutes(uc usecase.IFaceUsecase, v custome_validator.Validator, mw middle
 
 	router.Mount("/", user_handler.NewRouter(uc, v, mw))
 	router.Mount("/admin", admin_handler.NewRouter(uc, v, mw))
+	router.Mount("/public", public_handler.NewRouter(uc, v))
 
 	return router
 }

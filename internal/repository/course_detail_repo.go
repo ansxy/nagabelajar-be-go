@@ -20,7 +20,7 @@ func (r *Repository) FindOneCourseDetail(ctx context.Context, courseDetailID int
 		r.db.WithContext(ctx).Where("course_detail_id = ?", courseDetailID).Preload("Content", func(db *gorm.DB) *gorm.DB {
 			return db.Unscoped()
 		}).
-			Preload("Content.SubContent").Preload("Content.Exercise").Preload("Content.Practice"),
+			Preload("Content.SubContent").Preload("Content.Exercise").Preload("Content.Practice").Preload("Assigment"),
 		&data); err != nil {
 		return nil, err
 	}

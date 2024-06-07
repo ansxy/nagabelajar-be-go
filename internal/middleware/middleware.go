@@ -60,55 +60,47 @@ func (m Middleware) AuthenticatedUser() func(h http.Handler) http.Handler {
 	}
 }
 
-// func (m Middleware) AuthenticatedAdmin() func(h http.Handler) http.Handler {
-// 	return func(h http.Handler) http.Handler {
-// 		fn := func(w http.ResponseWriter, r *http.Request) {
+func (m Middleware) AuthenticatedAdmin() func(h http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
+		fn := func(w http.ResponseWriter, r *http.Request) {
 
-// 			ctx := r.Context()
-// 			token := r.Header.Get("Authorization")
-// 			letoken := 2
-// 			s := strings.Split(token, " ")
-// 			if len(s) != letoken {
-// 				response.UnauthorizedError(w)
-// 				return
-// 			}
+			ctx := r.Context()
+			token := r.Header.Get("Authorization")
+			letoken := 2
+			s := strings.Split(token, " ")
+			if len(s) != letoken {
+				response.UnauthorizedError(w)
+				return
+			}
 
-// 			firebaseToken := s[1]
-// 			claims, err := m.FCS.VerifiyToken(ctx, firebaseToken)
-// 			if err != nil {
-// 				response.UnauthorizedError(w)
-// 				return
-// 			}
-// 			queryUser := request.ListUserRequest{
-// 				BaseQuery: request.BaseQuery{
-// 					PerPage: -1,
-// 				},
-// 				Role: "admin",
-// 			}
+			firebaseToken := s[1]
+			claims, err := m.FCS.VerifiyToken(ctx, firebaseToken)
+			if err != nil {
+				response.UnauthorizedError(w)
+				return
+			}
 
-// 			listAdmin, _, err := m.UC.FindUsers(ctx, &queryUser)
-// 			if err != nil {
-// 				response.UnauthorizedError(w)
-// 				return
-// 			}
+			queryUser := request.LoginRequest{
+				FirebaseID: claims.UID,
+			}
 
-// 			if len(listAdmin) == 0 {
-// 				response.UnauthorizedError(w)
-// 				return
-// 			}
+			admin, err := m.UC.FindOneUser(ctx, &queryUser)
+			if err != nil {
+				response.UnauthorizedError(w)
+				return
+			}
 
-// 			for _, admin := range listAdmin {
-// 				if admin.FirebaseID != claims.UID {
-// 					response.UnauthorizedError(w)
-// 					return
-// 				}
-// 				ctx = context.WithValue(ctx, constant.UserID, admin.UserID)
-// 			}
+			if admin.Role != constant.Role.Admin {
+				response.UnauthorizedError(w)
+				return
+			}
 
-// 			ctx = context.WithValue(ctx, constant.FirebaseID, claims.UID)
-// 			h.ServeHTTP(w, r.WithContext(ctx))
-// 		}
+			ctx = context.WithValue(ctx, constant.UserID, admin.UserID)
 
-// 		return http.HandlerFunc(fn)
-// 	}
-// }
+			ctx = context.WithValue(ctx, constant.FirebaseID, claims.UID)
+			h.ServeHTTP(w, r.WithContext(ctx))
+		}
+
+		return http.HandlerFunc(fn)
+	}
+}

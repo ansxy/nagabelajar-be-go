@@ -22,3 +22,11 @@ type Certificate struct {
 	Owner   string `json:"owner"`
 	Address string `json:"address"`
 }
+
+type CertificatePDF struct {
+	Address    string
+	Name       string
+	CourseName string
+	QRImage    string
+	IssuerAt   string
+}

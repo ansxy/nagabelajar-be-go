@@ -1,13 +1,11 @@
 package usecase
 
 import (
-	"bytes"
 	"context"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"io"
-	"math/big"
 	"mime/multipart"
 	"strconv"
 
@@ -16,9 +14,6 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/pkg/constant"
 	custom_error "github.com/ansxy/nagabelajar-be-go/pkg/error"
 	goeth "github.com/ansxy/nagabelajar-be-go/pkg/go-eth/artifact"
-	"github.com/ansxy/nagabelajar-be-go/pkg/html"
-	"github.com/ansxy/nagabelajar-be-go/pkg/pdf"
-	"github.com/ansxy/nagabelajar-be-go/pkg/qrcode"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 )
@@ -78,81 +73,36 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 		return err
 	}
 
-	address, err := u.SM.Instance.CreateCertificate(u.SM.Auth, user.Name, user.Email, course.Name, course.Code)
-	if err != nil {
-		return err
-	}
-
-	//Wait till the certificate is created
-	receipt, err := bind.WaitMined(ctx, u.SM.Client, address)
+	newCertAddress, address, cost, gasPrice, gasUsed, err := u.Service.CreateCertificate(ctx, u.SM.Auth, user.Name, user.Email, course.Name, course.Code)
 
 	if err != nil {
 		return err
 	}
 
-	if receipt.Status == 0 {
-		return fmt.Errorf("transaction failed")
-	}
-
-	callOpts := &bind.CallOpts{
-		From: u.SM.Auth.From,
-	}
-
-	count, err := u.SM.Instance.GetCertificateCount(callOpts)
+	qrImage, err := u.Service.QRCodeGenerator(fmt.Sprintf("%s/certificate?address=%s", u.Conf.FRONTENDURL, newCertAddress.String()))
 	if err != nil {
 		return err
 	}
 
-	newCertAddress, err := u.SM.Instance.CertificateAddresses(callOpts, big.NewInt(count.Int64()-1))
-	if err != nil {
-		return err
-	}
-
-	qrImage, err := qrcode.GenerateQRCode(fmt.Sprintf("%s/certificate?address=%s", u.Conf.FRONTENDURL, newCertAddress.String()))
-	if err != nil {
-		return err
-	}
-
-	time := address.Time().Format("2006-01-02")
-	data := map[string]interface{}{
-		"Address":    newCertAddress,
-		"Name":       user.Name,
-		"CourseName": course.Name,
-		"QRImage":    qrImage,
-		"IssuerAt":   time,
-	}
-
-	fileName := newCertAddress.String() + user.Name + course.Code + ".pdf"
-	page, err := html.ParseTemplateHTML("certificate.html", data)
-	if err != nil {
-		return err
-	}
-
-	width := 8.27
-	height := 10.52
-	buf, err := pdf.GeneratePDFFromHtml(page.String(), width, height)
-	if err != nil {
-		return err
-	}
-
-	pdfFileHeader := &multipart.FileHeader{
-		Filename: fileName,
-		Size:     int64(len(buf)),
-	}
-
-	pdfFileReader := bytes.NewReader(buf)
-	_, err = u.FC.UploudFile(ctx, pdfFileHeader, pdfFileReader)
-	if err != nil {
-		return err
-	}
-
-	md5File, err := u.FC.GetMd5Hash(ctx, fileName)
+	pdf, err := u.Service.CertificatePDF(ctx, address, constant.CertificatePDF{
+		QRImage:    qrImage,
+		Address:    newCertAddress.String(),
+		Name:       user.Name,
+		CourseName: course.Name,
+	}, *newCertAddress)
 
 	if err != nil {
 		return err
 	}
 
-	_, err = u.SM.Instance.UpdateMd5Certificate(u.SM.Auth, newCertAddress, md5File)
+	fileName := newCertAddress.String() + user.Name + course.Name + ".pdf"
+
+	md5File, err := u.Service.Md5Reader(ctx, fileName, pdf)
+	if err != nil {
+		return err
+	}
+
+	err = u.Service.UpdateMd5Certificate(ctx, u.SM.Auth, newCertAddress, md5File)
 
 	if err != nil {
 		return err
@@ -164,6 +114,10 @@ func (u *Usecase) CreateCertificate(ctx context.Context, req *request.CreateCert
 		FileUrl:           fmt.Sprintf("%s%s%s", constant.FirebaseStorageURL, fileName, constant.StorageMediaALT),
 		MD5:               md5File,
 		BlockchainAddress: newCertAddress.String(),
+		CourseID:          strconv.Itoa(int(course.CourseID)),
+		GasUsed:           gasUsed.String(),
+		GasPrice:          gasPrice.String(),
+		Cost:              cost.String(),
 	}
 
 	return u.Repo.CreateCertificate(ctx, certificate)

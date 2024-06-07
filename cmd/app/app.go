@@ -8,6 +8,7 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/database"
 	"github.com/ansxy/nagabelajar-be-go/gateway/http"
 	"github.com/ansxy/nagabelajar-be-go/internal/repository"
+	"github.com/ansxy/nagabelajar-be-go/internal/service"
 	"github.com/ansxy/nagabelajar-be-go/internal/usecase"
 	"github.com/ansxy/nagabelajar-be-go/pkg/firebase"
 	goeth "github.com/ansxy/nagabelajar-be-go/pkg/go-eth"
@@ -38,13 +39,21 @@ func Run() (err error) {
 	if err != nil {
 		return err
 	}
+
+	service := service.NewService(
+		&service.Service{
+			SM:  goeth,
+			FCM: fc,
+		},
+	)
 	repo := repository.NewRepository(db)
 	uc := usecase.NewUsecase(&usecase.Usecase{
-		Conf:   conf,
-		FC:     fc,
-		Repo:   repo,
-		Xendit: xendit.Xendit{Conf: conf},
-		SM:     goeth,
+		Conf:    conf,
+		FC:      fc,
+		Repo:    repo,
+		Xendit:  xendit.Xendit{Conf: conf},
+		SM:      goeth,
+		Service: service,
 	})
 
 	addr := flag.String("http", fmt.Sprintf(":%d", 3000), "HTTP listen address")

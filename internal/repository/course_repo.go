@@ -34,6 +34,16 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 		query = query.Where("LOWER(name) LIKE ?", fmt.Sprintf("%%%s%%", lowerCaseKeyword))
 	}
 
+	if params.UserID != "" {
+		query = query.Joins("LEFT JOIN tr_enrollments ON tr_enrollments.course_id = tr_courses.course_id AND tr_enrollments.user_id = ?", params.UserID).Preload("Enrollment", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped().Where("user_id = ?", params.UserID)
+		})
+
+		query = query.Preload("CourseDetail", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped().Preload("Assigment")
+		})
+	}
+
 	if params.Sort != "" {
 		query = query.Order(params.Sort)
 	}
@@ -53,13 +63,18 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 func (repo *Repository) FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error) {
 	var res model.Course
 	isEnrolled := false
-	query := repo.db.WithContext(ctx).Model(&model.Course{}).Where("tr_courses.course_id = ?", params.CourseID).Preload("Category").Preload("Media").Preload("CourseDetail").Preload("Progress")
-
+	query := repo.db.WithContext(ctx).Model(&model.Course{}).Where("tr_courses.course_id = ?", params.CourseID).Preload("Category").Preload("Media").Preload("CourseDetail")
 	if params.UserID != nil {
 		query = query.Joins("LEFT JOIN tr_enrollments ON tr_enrollments.course_id = tr_courses.course_id AND tr_enrollments.user_id = ?", *params.UserID).
 			Preload("Enrollment", func(db *gorm.DB) *gorm.DB {
 				return db.Unscoped().Where("user_id = ?", *params.UserID)
 			})
+	}
+
+	if params.UserID != nil {
+		query = query.Preload("Progress", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		})
 	}
 
 	if err := query.First(&res).Error; err != nil {
@@ -70,12 +85,10 @@ func (repo *Repository) FindOneCourse(ctx context.Context, params *request.GetOn
 		return nil, err
 	}
 
-	if res.Enrollment == nil {
+	if res.Enrollment != nil {
+		isEnrolled = true
 		res.IsEnrolled = &isEnrolled
 	}
-
-	isEnrolled = true
-	res.IsEnrolled = &isEnrolled
 
 	return &res, nil
 }

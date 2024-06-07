@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/ansxy/nagabelajar-be-go/config"
 	"github.com/ansxy/nagabelajar-be-go/internal/repository"
+	"github.com/ansxy/nagabelajar-be-go/internal/service"
 	"github.com/ansxy/nagabelajar-be-go/pkg/firebase"
 	goeth "github.com/ansxy/nagabelajar-be-go/pkg/go-eth"
 	"github.com/ansxy/nagabelajar-be-go/pkg/xendit"
@@ -18,14 +19,16 @@ type Usecase struct {
 	FC        firebase.IFaceFCM
 	SM        *goeth.GoethClient
 	Validator *validator.Validate
+	Service   service.IService
 }
 
 func NewUsecase(u *Usecase) IFaceUsecase {
 	return &Usecase{
-		Repo: u.Repo,
-		Conf: u.Conf,
-		DB:   u.DB,
-		FC:   u.FC,
-		SM:   u.SM,
+		Repo:    u.Repo,
+		Conf:    u.Conf,
+		DB:      u.DB,
+		FC:      u.FC,
+		SM:      u.SM,
+		Service: u.Service,
 	}
 }

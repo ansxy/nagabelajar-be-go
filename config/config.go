@@ -7,8 +7,11 @@ import (
 )
 
 type Config struct {
-	PostgresConfig PostgresConfig
-	XenditConfig   XenditConfig
+	PostgresConfig      PostgresConfig
+	FirebaseConfig      FirebaseConfig
+	XenditConfig        XenditConfig
+	SmartContractConfig SmartContractConfig
+	FRONTENDURL         string
 }
 
 type PostgresConfig struct {
@@ -19,6 +22,17 @@ type PostgresConfig struct {
 	Password string
 	SSLMode  string
 	URI      string
+}
+
+type SmartContractConfig struct {
+	Dial                 string
+	SmartContractAddress string
+	Key                  string
+}
+
+type FirebaseConfig struct {
+	FirebaseStorageBucket string
+	ServiceAccountPath    string
 }
 
 type XenditConfig struct {
@@ -35,20 +49,31 @@ func SetConfig() *Config {
 
 	v := viper.GetViper()
 	viper.AutomaticEnv()
+
 	return &Config{
 		PostgresConfig: PostgresConfig{
-			Host:     "localhost",
-			Port:     "5432",
-			Database: "nagabelajar",
-			User:     "ansar",
-			Password: "ansar123",
+			Host:     v.GetString("POSTGRES_HOST"),
+			Port:     v.GetString("POSTGRES_PORT"),
+			Database: v.GetString("POSTGRES_DATABASE"),
+			User:     v.GetString("POSTGRES_USER"),
+			Password: v.GetString("POSTGRES_PASSWORD"),
 			SSLMode:  "disable",
-			URI:      "postgresql://ansar:ansar123@localhost:5432/nagabelajar?sslmode=disable",
+			URI:      v.GetString("POSTGRES_URI"),
 		},
 		XenditConfig: XenditConfig{
 			SecretKey:          v.GetString("XENDIT_SECRET_KEY"),
 			SuccessRedirectURL: "http://localhost:3000/success",
 			FailureRedirectURL: "http://localhost:3000/failure",
 		},
+		FirebaseConfig: FirebaseConfig{
+			ServiceAccountPath:    v.GetString("FIREBASE_SERVICE_ACCOUNT_PATH"),
+			FirebaseStorageBucket: v.GetString("FIREBASE_STORAGE_BUCKET"),
+		},
+		SmartContractConfig: SmartContractConfig{
+			Dial:                 v.GetString("SMART_CONTRACT_DIAL"),
+			SmartContractAddress: v.GetString("SMART_CONTRACT_ADDRESS"),
+			Key:                  v.GetString("KEYSTORE_BLOCKCHAIN"),
+		},
+		FRONTENDURL: v.GetString("FRONTEND_URL"),
 	}
 }

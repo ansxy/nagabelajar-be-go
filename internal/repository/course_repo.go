@@ -2,9 +2,13 @@ package repository
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"strings"
 
 	"github.com/ansxy/nagabelajar-be-go/internal/model"
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
+	"gorm.io/gorm"
 )
 
 // CreateCourse implements IFaceRepository.
@@ -24,10 +28,20 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 	var course []model.Course
 	var count int64
 
-	query := repo.db.WithContext(ctx).Model(&model.Course{})
-
+	query := repo.db.WithContext(ctx).Model(&model.Course{}).Preload("Category").Preload("Media")
 	if params.Keyword != "" {
-		query = query.Where("name LIKE ?", "%"+params.Keyword+"%")
+		lowerCaseKeyword := strings.ToLower(params.Keyword)
+		query = query.Where("LOWER(name) LIKE ?", fmt.Sprintf("%%%s%%", lowerCaseKeyword))
+	}
+
+	if params.UserID != "" {
+		query = query.Joins("LEFT JOIN tr_enrollments ON tr_enrollments.course_id = tr_courses.course_id AND tr_enrollments.user_id = ?", params.UserID).Preload("Enrollment", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped().Where("user_id = ?", params.UserID)
+		})
+
+		query = query.Preload("CourseDetail", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped().Preload("Assigment")
+		})
 	}
 
 	if params.Sort != "" {
@@ -46,16 +60,40 @@ func (repo *Repository) FindListCourse(ctx context.Context, params *request.List
 }
 
 // FindOneCourse implements IFaceRepository.
-func (repo *Repository) FindOneCourse(ctx context.Context, courseID int) (*model.Course, error) {
-	var res *model.Course
+func (repo *Repository) FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error) {
+	var res model.Course
+	isEnrolled := false
+	query := repo.db.WithContext(ctx).Model(&model.Course{}).Where("tr_courses.course_id = ?", params.CourseID).Preload("Category").Preload("Media").Preload("CourseDetail")
+	if params.UserID != nil {
+		query = query.Joins("LEFT JOIN tr_enrollments ON tr_enrollments.course_id = tr_courses.course_id AND tr_enrollments.user_id = ?", *params.UserID).
+			Preload("Enrollment", func(db *gorm.DB) *gorm.DB {
+				return db.Unscoped().Where("user_id = ?", *params.UserID)
+			})
+	}
 
-	if err := repo.BaseRepository.FindOne(repo.db.WithContext(ctx).Where("course_id = ?", courseID), &res); err != nil {
+	if params.UserID != nil {
+		query = query.Preload("Progress", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		})
+	}
+
+	if err := query.First(&res).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			res.IsEnrolled = &isEnrolled
+			return &res, nil
+		}
 		return nil, err
 	}
-	return res, nil
+
+	if res.Enrollment != nil {
+		isEnrolled = true
+		res.IsEnrolled = &isEnrolled
+	}
+
+	return &res, nil
 }
 
 // UpdateCourse implements IFaceRepository.
 func (repo *Repository) UpdateCourse(ctx context.Context, data *model.Course) error {
-	panic("")
+	panic("implement me")
 }

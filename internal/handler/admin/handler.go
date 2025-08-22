@@ -34,6 +34,18 @@ func NewRouter(uc usecase.IFaceUsecase, v custom_validator.Validator, mw middlew
 
 	routes.Route("/course", func(route chi.Router) {
 		route.Post("/", handler.CreateCourse)
+		route.Get("/", handler.GetListCourse)
+		route.Get("/{course_id}", handler.GetOneCourse)
+		route.Group(func(route chi.Router) {
+			// route.Use(mw.AuthenticatedAdmin())
+			route.Post("/{course_id}/detail", handler.CreateCourseDetail)
+			route.Get("/{course_id}/detail", handler.FindCourseDetail)
+
+		})
+	})
+
+	routes.Route("/media", func(route chi.Router) {
+		route.Post("/", handler.UploadMedia)
 	})
 
 	return routes

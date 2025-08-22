@@ -1,0 +1,28 @@
+version: '3'
+services:
+  backend:
+    image: nagabelajar-be-go
+    environment:
+      POSTGRES_HOST: 172.168.1.119
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: magi
+      POSTGRES_PASSWORD: magi
+      POSTGRES_DB: nagabelajar
+    ports:
+      - "3000:3000"
+  compiler:
+    image: nagabelajar-compiler
+    environment:
+      - APP_PORT=3001
+    ports:
+      - "3001:3001"
+  client:
+    image: nagabelajar-fe
+    environment:
+      VITE_API_URL: http://backend:3000
+      VITE_COMPILER_URL: http://compiler:3001
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+      - compiler

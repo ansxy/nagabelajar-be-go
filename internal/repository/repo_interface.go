@@ -7,26 +7,48 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/internal/request"
 )
 
-//go:generate mockgen -source=base_repo.go -destination=mocks/mock_base_repo.go -package=mocks
+//go:generate mockgen -destination=../mock/repository_mock.go -package=mock_repo -source=repo_interface.go
 type IFaceRepository interface {
 	//User
 	CreateUser(ctx context.Context, data *model.User) error
 	FindOneUser(ctx context.Context, query ...interface{}) (*model.User, error)
 	UpdateUser(ctx context.Context, data *model.User) error
-
-	//Category
+	FindUsers(ctx context.Context, params *request.ListUserRequest) ([]model.User, int64, error)
+	//CategoryP
 	CreateCategory(ctx context.Context, data *model.Category) error
 	FindListCategory(ctx context.Context, params *request.ListCategoryRequest) ([]model.Category, int64, error)
 	DeleteOneCategory(ctx context.Context, categoryID int) error
 	FindOneCategory(ctx context.Context, categoryID int) (*model.Category, error)
+	CountCategoryCourse(ctx context.Context, categoryID int) (int64, error)
 
 	//Course
 	CreateCourse(ctx context.Context, data *model.Course) error
 	FindListCourse(ctx context.Context, params *request.ListCourseRequest) ([]model.Course, int64, error)
-	FindOneCourse(ctx context.Context, courseID int) (*model.Course, error)
+	FindOneCourse(ctx context.Context, params *request.GetOneCourseRequest) (*model.Course, error)
 	DeleteOneCourse(ctx context.Context, courseID int) error
 	UpdateCourse(ctx context.Context, data *model.Course) error
 
+	//DetailCourse
+	CreateCourseDetail(ctx context.Context, data *model.CourseDetail) error
+	FindOneCourseDetail(ctx context.Context, course_detail_id int) (*model.CourseDetail, error)
+
 	//Transaction
 	CreateTransaction(ctx context.Context, data *model.Transaction) error
+
+	//Certificate
+	CreateCertificate(ctx context.Context, data *model.Certificate) error
+	FindOneCertificate(ctx context.Context, query ...interface{}) (*model.Certificate, error)
+	FindListCertificate(ctx context.Context, params *request.ListCertificateRequest) ([]model.Certificate, int64, error)
+
+	//Media
+	CreateMedia(ctx context.Context, data *model.Media) error
+
+	//Enrollment
+	CreateEnrollment(ctx context.Context, data *model.Enrollment) error
+
+	//Progress
+	CreateProgress(ctx context.Context, data *model.Progress) error
+	FindOneProgress(ctx context.Context, query ...interface{}) (*model.Progress, error)
+	UpdateProgress(ctx context.Context, data *model.Progress) error
+	FindListProgress(ctx context.Context, courseID int, userID string) ([]model.Progress, int64, error)
 }

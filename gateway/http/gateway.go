@@ -9,6 +9,7 @@ import (
 	"github.com/ansxy/nagabelajar-be-go/internal/middleware"
 	"github.com/ansxy/nagabelajar-be-go/internal/response"
 	"github.com/ansxy/nagabelajar-be-go/internal/usecase"
+	"github.com/ansxy/nagabelajar-be-go/pkg/firebase"
 	custom_validator "github.com/ansxy/nagabelajar-be-go/pkg/validator"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -16,10 +17,13 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func NewHTTPHandler(conf *config.Config, uc usecase.IFaceUsecase) http.Handler {
+func NewHTTPHandler(conf *config.Config, uc usecase.IFaceUsecase, fc firebase.IFaceFCM) http.Handler {
 	r := chi.NewRouter()
 	validator := custom_validator.NewValidator(go_validator.New())
-	mw := middleware.Middleware{}
+	mw := middleware.Middleware{
+		FCS: fc,
+		UC:  uc,
+	}
 
 	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout})
 	r.Use(middleware.Logger(&logger))

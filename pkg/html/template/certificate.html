@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    body {
+      font-family: "DM Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-color: black;
+      border-style: solid;
+      border-width: 10px;
+    }
+    .container > div {
+      padding: 10px;
+    }
+    
+    .container > div > .section_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      background-color: #0a0a23;
+      padding: 10px;
+      flex-direction: row;
+    }
+
+
+    .container > div > .section_body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+    }
+
+    .section_body > p {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size:  1.5rem;
+    }
+
+    .section_body > p > span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+      padding: 0;
+    }
+
+    figure {
+      margin-top: 20px;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <div>
+        <section class="section_header">
+          <h2>//NAGABELAJAR</h2>
+          <h2>Issuer At : <span>{{.IssuerAt}}</span></h2>
+        </section>
+        <section class="section_body">
+          <p>This Certificat That <span>{{.Name}}</span></p>
+          <p>has successfully completed the NAGABELAJAR<span>
+            {{.CourseName}}
+          </span></p>
+          <figure >
+            <img src="data:image/png;base64,{{.QRImage}}" alt="QRCode" />
+          </figure>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

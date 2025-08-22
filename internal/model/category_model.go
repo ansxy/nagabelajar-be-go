@@ -8,8 +8,6 @@ type Category struct {
 	CreatedAt  time.Time `json:"created_at" gorm:"type:timestamp; default:now()"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"type:timestamp; default:now()"`
 	DeletedAt  time.Time `json:"-" gorm:"type:timestamp; default:null"`
-
-	Courses []Course `json:"courses"`
 }
 
 func (Category) TableName() string {
